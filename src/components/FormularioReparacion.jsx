@@ -1,6 +1,5 @@
 import React, { useState} from 'react';
 import './FormularioReparacion.css';
-//import { postServicios } from '../services/Api';
 import axios from 'axios';
 import { Button, Container, MenuItem, TextField } from '@mui/material';
 
@@ -66,6 +65,7 @@ const handleSubmit = async (e) => {
     });
     console.log(response);
     console.log('Reparación registrada correctamente.');
+    window.location.href = '/servicios';
     
   } catch (error) {
     console.error('Error al registrar la reparación:', error);

@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import './FormularioReparacion.css';
 import axios from 'axios';
-import { Button, Container, MenuItem, TextField } from '@mui/material';
+import { Alert, Button, Container, MenuItem, TextField } from '@mui/material';
 
 export default function FormularioCliente() { 
   const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ const handleSubmit = async (e) => {
     });
     console.log(response);
     console.log('Cliente registrado correctamente.');
-    
+    window.location.href = '/clientes';    
   } catch (error) {
     console.error('Error al registrar el cliente:', error);
   }

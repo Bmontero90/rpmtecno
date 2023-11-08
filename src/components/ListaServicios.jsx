@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DetalleServicio from './DetalleServicio';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import './FormularioReparacion.css';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, OutlinedInput, Paper, Table, TableBody, TableContainer, TableHead, TableRow} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -45,45 +46,85 @@ export default function ListaServicios() {
         )
     }
 
+    const handleDelete = (NumeroOrden) => {
+      if (window.confirm("¿Seguro que deseas eliminar este registro?")) {
+        axios
+          .delete(`http://localhost:62164/api/servicio/${NumeroOrden}`)
+          .then((response) => {
+            console.log("Registro eliminado con éxito.");
+            setServicios(servicios.filter(servicio => servicio.NumeroOrden !== NumeroOrden));
+          })
+          .catch((error) => {
+            console.error("Error al eliminar el registro:", error);
+          });
+      }
+    };
+
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+      [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+      },
+      [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+      },
+    }));
+    
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      
+      '&:last-child td, &:last-child th': {
+        border: 0,
+      },
+    }));
+    
+
   return (
       <TableContainer component={Paper}>
       <h1>Lista de Reparaciones</h1>
       <Button href='/formularioOrden' variant="contained" color="success" sx={{mb:4}}>Nueva Orden</Button>
-      <TextField value={ordenBuscado} onChange={buscador} placeholder="Buscar..." fullWidth/>    
-   <Table>
+      <OutlinedInput value={ordenBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
+      startAdornment={
+        <InputAdornment position="start">
+          <SearchIcon />
+        </InputAdornment>
+      }/>    
+   <Table size="small">
       <TableHead >
           <TableRow >
-            <TableCell>Número de Orden</TableCell>
-            <TableCell>Cliente</TableCell>
-            <TableCell>Trabajo a Realizar</TableCell>
-            <TableCell>Fecha Recibido</TableCell>
-            <TableCell>Técnico</TableCell>
-            <TableCell>Estado</TableCell>
-            <TableCell>Acciones</TableCell>
+            <StyledTableCell>Número de Orden</StyledTableCell>
+            <StyledTableCell>Cliente</StyledTableCell>
+            <StyledTableCell>Trabajo a Realizar</StyledTableCell>
+            <StyledTableCell>Fecha Recibido</StyledTableCell>
+            <StyledTableCell>Técnico</StyledTableCell>
+            <StyledTableCell>Estado</StyledTableCell>
+            <StyledTableCell>Acciones</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {resultado.map(servicio => (
-            <TableRow key={servicio.NumeroOrden}>
-              <TableCell >{servicio.NumeroOrden}</TableCell >
-              <TableCell >{servicio.CICliente}</TableCell >
-              <TableCell >{servicio.TrabajoARealizar}</TableCell >
-              <TableCell >{servicio.FechaRecibido}</TableCell >
-              <TableCell >{servicio.Tecnico}</TableCell >
-              <TableCell >{servicio.IdEstado}</TableCell >
-              <TableCell>
+            <StyledTableRow  key={servicio.NumeroOrden}>
+              <StyledTableCell >{servicio.NumeroOrden}</StyledTableCell >
+              <StyledTableCell >{servicio.CICliente}</StyledTableCell >
+              <StyledTableCell >{servicio.TrabajoARealizar}</StyledTableCell >
+              <StyledTableCell >{servicio.FechaRecibido}</StyledTableCell >
+              <StyledTableCell >{servicio.Tecnico}</StyledTableCell >
+              <StyledTableCell >{servicio.IdEstado}</StyledTableCell >
+              <StyledTableCell>
                 <Box>
                   <EditIcon sx={{ paddingRight: '10px' }} />
                   <SearchIcon sx={{ paddingRight: '10px' }} />
-                  <DeleteIcon />
+                  <IconButton onClick={() => handleDelete(servicio.NumeroOrden)}><DeleteIcon /></IconButton>                  
                 </Box>
-              </TableCell>
+              </StyledTableCell>
               {/* <TableCell >
                 <Button onClick={() => mostrarDetalleServicio(servicio.NumeroOrden)}>
                   Ver Detalles
                 </Button>
               </TableCell > */}
-            </TableRow>
+            </StyledTableRow >
           ))}
         </TableBody>
       </Table >

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, InputBase, TextField} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import {Paper, Table, TableBody, TableContainer, TableHead, TableRow, Button,OutlinedInput, InputAdornment} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Clientes() {
 
@@ -39,36 +42,61 @@ useEffect(() => {
         )
     }
 
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+      [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+      },
+      [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+      },
+    }));
+    
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      
+      '&:last-child td, &:last-child th': {
+        border: 0,
+      },
+    }));
+
     return(
         
         <TableContainer component={Paper}>
       <h1>Lista de Clientes</h1>
       <Button href='/formularioCliente' variant="contained" color="success" sx={{mb:4}}>Nuevo Cliente</Button>
-      <TextField value={clienteBuscado} onChange={buscador} placeholder="Buscar..." fullWidth/>  
-   <Table>
+      <OutlinedInput value={clienteBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
+      startAdornment={
+        <InputAdornment position="start">
+          <SearchIcon />
+        </InputAdornment>
+      }/>    
+   <Table size="small">
       <TableHead >
           <TableRow >
-            <TableCell>Cédula</TableCell>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Apellido</TableCell>
-            <TableCell>Teléfono</TableCell>
-            <TableCell>E-mail</TableCell>            
+            <StyledTableCell>Cédula</StyledTableCell>
+            <StyledTableCell>Nombre</StyledTableCell>
+            <StyledTableCell>Apellido</StyledTableCell>
+            <StyledTableCell>Teléfono</StyledTableCell>
+            <StyledTableCell>E-mail</StyledTableCell>            
           </TableRow>
         </TableHead>
         <TableBody>
           {resultado.map(cliente => (
-            <TableRow key={cliente.CI}>
-              <TableCell >{cliente.CI}</TableCell >
-              <TableCell >{cliente.Nombre}</TableCell >
-              <TableCell >{cliente.Apellido}</TableCell >
-              <TableCell >{cliente.Telefono}</TableCell >
-              <TableCell >{cliente.Mail}</TableCell >
+            <StyledTableRow key={cliente.CI}>
+              <StyledTableCell >{cliente.CI}</StyledTableCell >
+              <StyledTableCell >{cliente.Nombre}</StyledTableCell >
+              <StyledTableCell >{cliente.Apellido}</StyledTableCell >
+              <StyledTableCell >{cliente.Telefono}</StyledTableCell >
+              <StyledTableCell >{cliente.Mail}</StyledTableCell >
               {/* <TableCell >
                 <Button onClick={() => mostrarDetalleServicio(servicio.NumeroOrden)}>
                   Ver Detalles
                 </Button>
               </TableCell > */}
-            </TableRow>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table >
