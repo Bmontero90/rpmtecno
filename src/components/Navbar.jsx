@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Box, Button, Container, IconButton, InputBase, Menu, MenuItem, Toolbar } from "@mui/material";
+import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 ;
 
@@ -27,10 +27,10 @@ export default function Navbar() {
             <img className="logo" href='/' src="./logo.png"></img>
           </Box>
           <Button href='/servicios' sx={{color:'white', textTransform: 'none'}} >
-            Servicios
+            Órdenes
           </Button>
-          <Button href='/formulario' sx={{color:'white', textTransform: 'none'}}>
-            Formulario
+          <Button href='/clientes' sx={{color:'white', textTransform: 'none'}}>
+            Clientes
           </Button>
           <Button
             sx={{
