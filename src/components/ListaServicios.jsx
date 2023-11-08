@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DetalleServicio from './DetalleServicio';
 import './FormularioReparacion.css';
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
 export default function ListaServicios() {
   const [servicios, setServicios] = useState([]);
-  const [numeroOrdenSeleccionado, setNumeroOrdenSeleccionado] = useState(null);
-
-  const mostrarDetalleServicio = (numeroOrden) => {
-    setNumeroOrdenSeleccionado(numeroOrden);
-   };
+  const [ordenBuscado, setOrdenBuscado] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,56 +24,69 @@ export default function ListaServicios() {
     };
 
     fetchData();
-  }, []); 
+  }, []);
+
+
+  const buscador = (e) => {
+    setOrdenBuscado(e.target.value)
+    console.log(e)
+  }
+
+  //Metodo de filtrado
+    let resultado = []
+    if(!ordenBuscado){
+        resultado = servicios
+    } else{
+        resultado = servicios.filter((dato) =>
+        dato.NumeroOrden.toString().includes(ordenBuscado) ||
+        dato.CICliente.toString().includes(ordenBuscado) ||
+        dato.Tecnico.toLowerCase().includes(ordenBuscado.toLowerCase()) ||
+        dato.FechaRecibido.toString().includes(ordenBuscado)
+        )
+    }
 
   return (
-    <TableContainer component={Paper}>
+      <TableContainer component={Paper}>
       <h1>Lista de Reparaciones</h1>
-      <Button href='/formulario' variant="contained" color="success" sx={{mb:4}}>Nueva reparación</Button>    
+      <Button href='/formularioOrden' variant="contained" color="success" sx={{mb:4}}>Nueva Orden</Button>
+      <TextField value={ordenBuscado} onChange={buscador} placeholder="Buscar..." fullWidth/>    
    <Table>
       <TableHead >
           <TableRow >
             <TableCell>Número de Orden</TableCell>
             <TableCell>Cliente</TableCell>
-            <TableCell>Tipo de Equipo</TableCell>
-            <TableCell>Modelo</TableCell>
             <TableCell>Trabajo a Realizar</TableCell>
-            <TableCell>Tipo de Servicio</TableCell>
             <TableCell>Fecha Recibido</TableCell>
-            <TableCell>Fecha Finalizado</TableCell>
             <TableCell>Técnico</TableCell>
-            <TableCell>Precio de Reparación</TableCell>
             <TableCell>Estado</TableCell>
-            <TableCell>Nota</TableCell>
+            <TableCell>Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {servicios.map(servicio => (
+          {resultado.map(servicio => (
             <TableRow key={servicio.NumeroOrden}>
               <TableCell >{servicio.NumeroOrden}</TableCell >
               <TableCell >{servicio.CICliente}</TableCell >
-              <TableCell >{servicio.TipoEquipo}</TableCell >
-              <TableCell >{servicio.Modelo}</TableCell >
               <TableCell >{servicio.TrabajoARealizar}</TableCell >
-              <TableCell>{servicio.TipoServicio}</TableCell >
               <TableCell >{servicio.FechaRecibido}</TableCell >
-              <TableCell >{servicio.FechaFinalizado}</TableCell >
               <TableCell >{servicio.Tecnico}</TableCell >
-              <TableCell >{servicio.PrecioReparacion}</TableCell >
               <TableCell >{servicio.IdEstado}</TableCell >
-              <TableCell >{servicio.Nota}</TableCell >
-              <TableCell >
+              <TableCell>
+                <Box>
+                  <EditIcon sx={{ paddingRight: '10px' }} />
+                  <SearchIcon sx={{ paddingRight: '10px' }} />
+                  <DeleteIcon />
+                </Box>
+              </TableCell>
+              {/* <TableCell >
                 <Button onClick={() => mostrarDetalleServicio(servicio.NumeroOrden)}>
                   Ver Detalles
                 </Button>
-              </TableCell >
+              </TableCell > */}
             </TableRow>
           ))}
         </TableBody>
       </Table >
-
-      {/* Renderiza el componente DetalleServicio si se ha seleccionado un número de orden */}
-      {numeroOrdenSeleccionado && <DetalleServicio numeroOrden={numeroOrdenSeleccionado} />}
     </TableContainer>
   );
   

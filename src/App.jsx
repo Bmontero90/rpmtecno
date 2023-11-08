@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar';
-import ListaServicios1 from './components/ListaServicios1';
+import ListaServicios1 from './components/ListaServicios';
 import ListaClientes from './components/ListaClientes';
 import FormularioReparacion from './components/FormularioReparacion';
 import { Route, Routes } from 'react-router-dom';
