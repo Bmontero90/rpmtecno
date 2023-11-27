@@ -1,9 +1,13 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormularioReparacion.css';
 import axios from 'axios';
-import { Button, Container, MenuItem, TextField } from '@mui/material';
+import { Autocomplete, Button, Container, MenuItem, TextField, Typography } from '@mui/material';
 
 export default function FormularioReparacion() { 
+  
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  
   const [formData, setFormData] = useState({
     numeroOrden : '',
     ciCliente : '',   
@@ -13,11 +17,37 @@ export default function FormularioReparacion() {
     trabajoARealizar : '',
     tecnico : '',
     precioReparacion : '',
-    fechaRecibido : '',
+    fechaRecibido : currentDate,
     fechaFinalizado : '',
     nota : '',
-    idEstado : ''
+    idEstado : '1'
   });
+
+  
+  
+
+  const [clientes, setClientes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:62164/api/cliente');
+        console.log('Clientes desde la API:', response.data);
+
+        const formattedClientes = response.data.map((cliente) => ({ label: cliente.Nombre + ' ' + cliente.Apellido, value: cliente.CI }));
+        console.log('Clientes formateados:', formattedClientes);
+
+        setClientes(formattedClientes);
+      } catch (error) {
+        console.error('Error al obtener la lista de clientes', error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+  
+
 
   ///////PARA EL SELECTOR DE TIPO DE SERVICIO
  
@@ -72,9 +102,10 @@ const handleSubmit = async (e) => {
   }
 };
 
+
   return (
     <Container sx={{mt:5}}>
-      <h2>Formulario de Reparación</h2>
+      <Typography variant='h4' sx={{mb:2}}>Formulario de reparación</Typography>
       <form onSubmit={handleSubmit}>      
         <div className="form-group">  
           <TextField 
@@ -87,6 +118,19 @@ const handleSubmit = async (e) => {
           />
         </div>
         <div className="form-group">
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"          
+          options={clientes}
+          getOptionLabel={(option) => (option ? option.label : '')}
+          fullWidth
+          onChange={(event, newValue) => {
+            setFormData({ ...formData, ciCliente: parseInt(newValue?.value, 10) || '' });
+          }}
+          renderInput={(params) => <TextField {...params} label="Cliente" />}
+        />
+        </div>
+        <div className="form-group">
           <TextField
             label='Cédula'
             type="number"
@@ -96,7 +140,7 @@ const handleSubmit = async (e) => {
             required
             fullWidth 
           />
-        </div>
+        </div>    
         <div className="form-group">
           <TextField
             label='Tipo de Equipo'
@@ -145,13 +189,13 @@ const handleSubmit = async (e) => {
             select
             helperText="Por favor, seleccione el servicio que desea realizar"
           >
-          <MenuItem value='Reparación PC'>
+          <MenuItem value='1'>
             Reparación PC
           </MenuItem>
-          <MenuItem value='Reparación de celular'>
+          <MenuItem value='2'>
             Reparación de celular
           </MenuItem>
-          <MenuItem value='Reparación de impresora'>
+          <MenuItem value='3'>
             Reparación de impresora
           </MenuItem>
           </TextField>
@@ -170,7 +214,7 @@ const handleSubmit = async (e) => {
             }}
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <TextField
             label='Fecha Estimada de Reparación'
             type="date"
@@ -183,7 +227,7 @@ const handleSubmit = async (e) => {
               shrink: true,
             }}
           />
-        </div>
+        </div> */}
          {/* abajo esto es el selector de el tecnico */}
         <div className="form-group">
           <TextField
@@ -192,9 +236,22 @@ const handleSubmit = async (e) => {
             name="tecnico"
             value={formData.tecnico}
             onChange={handleInputChange}
+            select
             required
             fullWidth
-          />
+          >
+            <MenuItem value='1'>
+            Reparador de PC
+          </MenuItem>
+          <MenuItem value='2'>
+          Reparador de celular
+          </MenuItem>
+          <MenuItem value='3'>
+          Reparador de impresoras
+          </MenuItem>
+          
+          </TextField>
+          
         </div>
         <div className="form-group">
           <TextField
@@ -208,7 +265,7 @@ const handleSubmit = async (e) => {
           />
         </div>
         {/* abajo esto es el selector del estaado */}
-        <div className="form-group">
+        {/* <div className="form-group">
           <TextField
             label='Estado'
             type="number"
@@ -218,7 +275,7 @@ const handleSubmit = async (e) => {
             required
             fullWidth
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <TextField
             label='Notas'
@@ -229,9 +286,9 @@ const handleSubmit = async (e) => {
             required
             fullWidth
           />
-        </div>
-        <Button variant="contained" type="submit">Registro</Button>     
-      </form>
+        </div>        
+        <Button variant="contained" type="submit" fullWidth>Registro</Button>
+    </form>
     </Container>
   );
 };
