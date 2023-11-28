@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Link } from 'react-router-dom';
 
 
 
@@ -48,7 +49,7 @@ export default function ListaServicios() {
 
       console.log(data);
 
-      await axios.put(`http://localhost:62164/api/servicio/${id}`, data);
+      await axios.put(`http://localhost:62164/api/servicio/ModificarEstado/${id}`, data);
 
       
       setServicios((prevServicios) => {
@@ -176,6 +177,11 @@ export default function ListaServicios() {
     handleOpen(); 
   };
 
+  const editarServicio = (servicio) => {
+ 
+    console.log('Mostrar detalles del servicio:', servicio);
+  };
+
   const styleModal = {
     position: 'absolute',
     top: '50%',
@@ -194,8 +200,6 @@ export default function ListaServicios() {
       <Container>
         <Typography variant='h4' sx={{ mb: 2 }}>Listado de Reparaciones</Typography>
         <Button href='/formularioOrden' variant="contained" color="success" startIcon={<AddCircleOutlineIcon />} size="small" sx={{ mb: 2 }}>Añadir</Button>
-        {/* <IconButton href='/formularioOrden'><NoteAddIcon color="success" fontSize="large" /></IconButton> */}
-        {/* <Button href='/formularioOrden' variant="contained" color="success" sx={{mb:2}}>Nueva Orden</Button> */}
         <OutlinedInput value={ordenBuscado} onChange={buscador} placeholder="Buscar..." sx={{ mb: 2 }} fullWidth size="small"
           startAdornment={
             <InputAdornment position="start">
@@ -342,11 +346,13 @@ export default function ListaServicios() {
               <StyledTableCell>
                 <Box>
                   <IconButton onClick={() => mostrarDetallesServicio(servicio)}>
-                    <SearchIcon sx={{ paddingRight: '10px' }} />
+                    <SearchIcon sx={{ paddingRight: '2px' }} />
                   </IconButton>
-                  <IconButton>
-                    <EditIcon sx={{ paddingRight: '10px' }} />
+                  <Link to={`/detalleServicio/${servicio.NumeroOrden}`}>
+                  <IconButton>                 
+                    <EditIcon onClick={() => editarServicio(servicio)} sx={{ paddingRight: '2px' }} />
                   </IconButton>
+                </Link>                  
                   <IconButton onClick={() => handleDelete(servicio.NumeroOrden)}>
                     <DeleteIcon />
                   </IconButton>

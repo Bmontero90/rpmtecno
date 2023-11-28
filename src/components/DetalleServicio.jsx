@@ -1,42 +1,167 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { useParams } from 'react-router-dom';
+import { Button, TextField, Typography } from "@mui/material";
 
 
 export default function DetalleServicio() {
 
-  const [servicioSeleccionado, setServicioSeleccionado] = useState(null)
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const mostrarDetallesServicio = (servicio) => {
-    setServicioSeleccionado(servicio);
-    handleOpen(); 
+  const { NumeroOrden } = useParams();
+  const [detalleServicio, setDetalleServicio] = useState(null);
+  const [editando, setEditando] = useState(false);
+  const [formulario, setFormulario] = useState({
+    NumeroOrden: '',
+    CICliente: '',
+    TipoEquipo: '',
+    Modelo: '',
+    TrabajoARealizar: '',
+    TipoServicio: '',
+    FechaRecibido: '',
+    FechaFinalizado: '',
+    Tecnico: '',
+    PrecioReparacion:'',
+    IdEstado:'',
+    Nota:''
+   
+  });
+ 
+  useEffect(() => {
+    const fetchDetalleServicio = async () => {
+      try {
+        const response = await axios.get(`http://localhost:62164/api/servicio/${NumeroOrden}`);
+        setDetalleServicio(response.data);
+        // También actualiza el estado del formulario con los datos del cliente
+        setFormulario(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error('Error al obtener los detalles del servicio', error);
+      }
+    };
+ 
+    if (NumeroOrden) {
+      fetchDetalleServicio();
+    }
+  }, [NumeroOrden]);
+ 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormulario((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
   };
-
-  const styleModal = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+ 
+  const handleEditarClick = () => {
+    setEditando(true);
   };
-
-
+ 
+  const handleGuardarClick = async () => {
+    try {
+      // Realiza la solicitud para actualizar los datos del cliente en el servidor
+      await axios.put(`http://localhost:62164/api/servicio/ActualizarDetalles/${NumeroOrden}`, formulario);
+      setEditando(false);
+      window.location.href = '/servicios';
+      console.log('Servicio actualizado correctamente');
+      window.alert('Servicio actualizado correctamente');
+    } catch (error) {
+      console.error('Error al actualizar los detalles del servicio', error);
+    }
+  };
+  
   return(
     <>
-    <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={styleModal}>
+    <div>
+      <h1>Detalles Orden</h1>
+      {detalleServicio ? (
+        <div>
+          <TextField
+            label="Número de Orden"
+            name="NumeroOrden"
+            value={formulario.NumeroOrden}
+            onChange={handleInputChange}
+            disabled={true}
+          />
+          <TextField
+            label="Cliente"
+            name="CICliente"
+            value={formulario.CICliente}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Tipo de Equipo"
+            name="TipoEquipo"
+            value={formulario.TipoEquipo}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Modelo"
+            name="Modelo"
+            value={formulario.Modelo}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Trabajo a realizar"
+            name="TrabajoARealizar"
+            value={formulario.TrabajoARealizar}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Tipo de Servicio"
+            name="TipoServicio"
+            value={formulario.TipoServicio}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Fecha Recibido"
+            name="FechaRecibido"
+            value={formulario.FechaRecibido}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Técnico"
+            name="Tecnico"
+            value={formulario.Tecnico}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Precio"
+            name="PrecioReparacion"
+            value={formulario.PrecioReparacion}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+          <TextField
+            label="Nota"
+            name="Nota"
+            value={formulario.Nota}
+            onChange={handleInputChange}
+            disabled={!editando}
+          />
+        
+ 
+          {editando ? (
+            <Button variant="contained" onClick={handleGuardarClick}>
+              Guardar
+            </Button>
+          ) : (
+            <Button variant="contained" onClick={handleEditarClick}>
+              Editar
+            </Button>
+          )}
+        </div>
+      ) : (
+        <p>Cargando detalles del servicio...</p>
+      )}
+    </div>
+             
+                {/* <Box sx={styleModal}>
                   <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
                     Detalles de la Órden
                   </Typography>
@@ -55,8 +180,8 @@ export default function DetalleServicio() {
                       <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
                     </div>
                   )}
-                </Box>
-              </Modal>
+                </Box> */}
+              
 
     </>
   )

@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar';
-import ListaServicios1 from './components/ListaServicios';
+import ListaServicios from './components/ListaServicios';
 import ListaClientes from './components/ListaClientes';
 import FormularioReparacion from './components/FormularioReparacion';
 import { Route, Routes } from 'react-router-dom';
@@ -13,11 +13,11 @@ export default function App(){
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path='/servicios' element={<ListaServicios1/> } />
+        <Route path='/servicios' element={<ListaServicios/> } />
         <Route path='/formularioOrden' element={<FormularioReparacion/> } />
         <Route path='/clientes' element={<ListaClientes/> } />
         <Route path='/formularioCliente' element={<FormularioCliente/> } />
-        <Route path='/detalleServicio' element={<DetalleServicio/> } />
+        <Route path='/detalleServicio/:NumeroOrden' element={<DetalleServicio/> } />
       </Routes>
 
     </div>
