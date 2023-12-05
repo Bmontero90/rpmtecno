@@ -5,7 +5,12 @@ import { Autocomplete, Button, Container, MenuItem, TextField, Typography } from
 
 export default function FormularioReparacion() { 
   
+  const [servicios, setServicios] = useState([]);
   const currentDate = new Date().toISOString().split('T')[0];
+  const [errorNumeroOrden,setErrorNumeroOrden] = useState(false);
+  const [ordenBuscado, setOrdenBuscado] = useState('');
+  const [editando, setEditando] = useState(true);
+ 
 
   
   const [formData, setFormData] = useState({
@@ -21,10 +26,8 @@ export default function FormularioReparacion() {
     fechaFinalizado : '',
     nota : '',
     idEstado : '1'
-  });
+  });  
 
-  
-  
 
   const [clientes, setClientes] = useState([]);
 
@@ -37,6 +40,9 @@ export default function FormularioReparacion() {
         const formattedClientes = response.data.map((cliente) => ({ label: cliente.Nombre + ' ' + cliente.Apellido, value: cliente.CI }));
         console.log('Clientes formateados:', formattedClientes);
 
+        const responseServicios = await axios.get('http://localhost:62164/api/servicio');
+        setServicios(responseServicios.data);
+
         setClientes(formattedClientes);
       } catch (error) {
         console.error('Error al obtener la lista de clientes', error);
@@ -46,19 +52,68 @@ export default function FormularioReparacion() {
     fetchData();
   }, []); 
 
-  
-
-
-  ///////PARA EL SELECTOR DE TIPO DE SERVICIO
- 
-
-
-  ////////////////////////////////////////
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setOrdenBuscado(value);
+    }
+  
+
+  //  const handleBlurNumeroOrden = () => {
+  //   let estaPresente = servicios.some((servicio) => servicio.numeroOrden === ordenBuscado);
+  //   console.log(ordenBuscado)
+  //   console.log(estaPresente)
+  //   console.log(errorNumeroOrden)
+  //   if(estaPresente)
+  //   setErrorNumeroOrden(true);
+  //   console.log(errorNumeroOrden)
+  // };
+
+  const handleBlurNumeroOrden = () => {
+    let estaPresente = false;
+    console.log(ordenBuscado);
+  
+    servicios.forEach((servicio) => {
+      console.log(servicio.NumeroOrden);
+      if (servicio.NumeroOrden.toString() === ordenBuscado.toString()) {
+        console.log(estaPresente);
+        estaPresente = true;
+        console.log(estaPresente);
+      }
+    });
+  
+    setErrorNumeroOrden(estaPresente);
+    setEditando(estaPresente);
   };
 
+
+  // const handleBlurNumeroOrden = () => {
+  //   let resultado = []
+  //   let estaPresente = false;
+  //   console.log(ordenBuscado)
+  //   // console.log(estaPresente)
+  //   // console.log(errorNumeroOrden)
+
+  //   resultado = servicios.forEach((servicio) => {
+  //     console.log(servicio.NumeroOrden)
+  //     if (servicio.NumeroOrden.includes(ordenBuscado)) {
+  //       console.log(estaPresente)
+  //       estaPresente = true;
+  //       console.log(estaPresente)
+  //     }
+  //   });
+  
+  //   setErrorNumeroOrden(estaPresente);
+  // };
+  
+ 
+      
+
+  
+
+
+
+  
   
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -113,8 +168,11 @@ const handleSubmit = async (e) => {
           name='numeroOrden'
           value={formData.numeroOrden}
           onChange={handleInputChange}
+          onBlur={handleBlurNumeroOrden}
           required
-          fullWidth 
+          fullWidth
+          helperText={errorNumeroOrden ? 'El numero de orden ya existe' : ''}
+          error={errorNumeroOrden}
           />
         </div>
         <div className="form-group">
@@ -122,12 +180,14 @@ const handleSubmit = async (e) => {
           disablePortal
           id="combo-box-demo"          
           options={clientes}
+          disabled={editando}
           getOptionLabel={(option) => (option ? option.label : '')}
           fullWidth
           onChange={(event, newValue) => {
             setFormData({ ...formData, ciCliente: parseInt(newValue?.value, 10) || '' });
           }}
-          renderInput={(params) => <TextField {...params} label="Cliente" />}
+          renderInput={(params) => <TextField {...params} label="Cliente"
+          required />}
         />
         </div>
         <div className="form-group">
@@ -138,6 +198,9 @@ const handleSubmit = async (e) => {
             value={formData.ciCliente}
             onChange={handleInputChange}
             required
+            InputProps={{
+              readOnly: true,
+            }}
             fullWidth 
           />
         </div>    
@@ -150,6 +213,7 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth 
+            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -160,7 +224,8 @@ const handleSubmit = async (e) => {
             value={formData.modelo}
             onChange={handleInputChange}
             required
-            fullWidth 
+            fullWidth
+            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -174,6 +239,7 @@ const handleSubmit = async (e) => {
             multiline
             rows={4}
             fullWidth 
+            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -186,6 +252,7 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth
+            disabled={editando}
             select
             helperText="Por favor, seleccione el servicio que desea realizar"
           >
@@ -209,6 +276,7 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth
+            disabled={editando}
             InputLabelProps={{
               shrink: true,
             }}
@@ -238,6 +306,7 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             select
             required
+            disabled={editando}
             fullWidth
           >
             <MenuItem value='1'>
@@ -256,11 +325,12 @@ const handleSubmit = async (e) => {
         <div className="form-group">
           <TextField
             label='Precio'
-            type="text"
+            type="number"
             name="precioReparacion"
             value={formData.precioReparacion}
             onChange={handleInputChange}
             required
+            disabled={editando}
             fullWidth
           />
         </div>
@@ -284,10 +354,11 @@ const handleSubmit = async (e) => {
             value={formData.nota}
             onChange={handleInputChange}
             required
+            disabled={editando}
             fullWidth
           />
         </div>        
-        <Button variant="contained" type="submit" fullWidth>Registro</Button>
+        <Button variant="contained" type="submit" fullWidth disabled={editando}>Registro</Button>
     </form>
     </Container>
   );

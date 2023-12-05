@@ -370,17 +370,39 @@ export default function ListaServicios() {
                   </Typography>
                   {servicioSeleccionado && (
                     <div>
-                      <TextField label='Numero de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Cliente' defaultValue={servicioSeleccionado.CICliente} size="small" variant="standard" sx={{ mb: 2 }} />
-                      <TextField label='Tipo de Equipo' defaultValue={servicioSeleccionado.TipoEquipo} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Modelo' defaultValue={servicioSeleccionado.Modelo} size="small" variant="standard" sx={{ mb: 2 }} />
-                      <TextField label='Trabajo a Realizar' defaultValue={servicioSeleccionado.TrabajoARealizar} size="small" variant="standard" sx={{ mr: 20 }} />
-                      <TextField label='Tipo de Servicio' defaultValue={servicioSeleccionado.TipoServicio && tiposServicios.find((tiposervicio) => tiposervicio.IdTipoServicio === servicioSeleccionado.TipoServicio)?.NombreServicio} size="small" variant="standard" sx={{ mb: 2 }} />
-                      <TextField label='Fecha Recibido' defaultValue={servicioSeleccionado.FechaRecibido} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Fecha Finalizado' defaultValue={servicioSeleccionado.FechaFinalizado} size="small" variant="standard" sx={{ mb: 2 }} />
-                      <TextField label='Tecnico' defaultValue={servicioSeleccionado.Tecnico && tecnicos.find((empleado) => empleado.IdEmpleado === servicioSeleccionado.Tecnico)?.NombreEmpleado} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Precio: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" sx={{ mb: 2 }} />
-                      <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" sx={{ mr: 20, mb: 2 }} />
+                      <TextField label='Numero de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20, mb: 2 }} />
+                      <TextField label='Cliente' defaultValue={servicioSeleccionado.CICliente} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mb: 2 }} />
+                      <TextField label='Tipo de Equipo' defaultValue={servicioSeleccionado.TipoEquipo} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20, mb: 2 }} />
+                      <TextField label='Modelo' defaultValue={servicioSeleccionado.Modelo} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mb: 2 }} />
+                      <TextField label='Trabajo a Realizar' defaultValue={servicioSeleccionado.TrabajoARealizar} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20 }} />
+                      <TextField label='Tipo de Servicio' defaultValue={servicioSeleccionado.TipoServicio && tiposServicios.find((tiposervicio) => tiposervicio.IdTipoServicio === servicioSeleccionado.TipoServicio)?.NombreServicio} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mb: 2 }} />
+                      <TextField label='Fecha Recibido' defaultValue={servicioSeleccionado.FechaRecibido} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20, mb: 2 }} />
+                      <TextField label='Fecha Finalizado' defaultValue={servicioSeleccionado.FechaFinalizado} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mb: 2 }} />
+                      <TextField label='Tecnico' defaultValue={servicioSeleccionado.Tecnico && tecnicos.find((empleado) => empleado.IdEmpleado === servicioSeleccionado.Tecnico)?.NombreEmpleado} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20, mb: 2 }} />
+                      <TextField label='Precio: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mb: 2 }} />
+                      <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" InputProps={{
+            readOnly: true,
+          }} sx={{ mr: 20, mb: 2 }} />
                     </div>
                   )}
                 </Box>

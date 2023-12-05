@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 
 
 export default function DetalleServicio() {
@@ -70,10 +70,12 @@ export default function DetalleServicio() {
   
   return(
     <>
-    <div>
       <h1>Detalles Orden</h1>
       {detalleServicio ? (
-        <div>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+          
           <TextField
             label="Número de Orden"
             name="NumeroOrden"
@@ -81,6 +83,8 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={true}
           />
+          
+          
           <TextField
             label="Cliente"
             name="CICliente"
@@ -88,6 +92,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+          
           <TextField
             label="Tipo de Equipo"
             name="TipoEquipo"
@@ -95,6 +100,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+         
           <TextField
             label="Modelo"
             name="Modelo"
@@ -102,6 +108,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+          
           <TextField
             label="Trabajo a realizar"
             name="TrabajoARealizar"
@@ -109,6 +116,10 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+          
+          </Grid>
+          <Grid item xs={6}>
+          
           <TextField
             label="Tipo de Servicio"
             name="TipoServicio"
@@ -116,6 +127,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+          
           <TextField
             label="Fecha Recibido"
             name="FechaRecibido"
@@ -123,6 +135,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+          
           <TextField
             label="Técnico"
             name="Tecnico"
@@ -130,6 +143,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+        
           <TextField
             label="Precio"
             name="PrecioReparacion"
@@ -137,6 +151,7 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
+         
           <TextField
             label="Nota"
             name="Nota"
@@ -144,7 +159,9 @@ export default function DetalleServicio() {
             onChange={handleInputChange}
             disabled={!editando}
           />
-        
+         
+          </Grid>
+          </Grid>
  
           {editando ? (
             <Button variant="contained" onClick={handleGuardarClick}>
@@ -155,12 +172,11 @@ export default function DetalleServicio() {
               Editar
             </Button>
           )}
-        </div>
+        </Container>
       ) : (
         <p>Cargando detalles del servicio...</p>
       )}
-    </div>
-             
+    
                 {/* <Box sx={styleModal}>
                   <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
                     Detalles de la Órden
