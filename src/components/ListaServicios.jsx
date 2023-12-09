@@ -28,29 +28,20 @@ export default function ListaServicios() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-//Actualizo el estado del servicio
-  const handleEditEstado = async (id,nuevoEstado) => {
+
+  const handleEditEstado = async (id,nuevoEstado,nuevaFecha) => {
     try {
       const data = 
       {
         NumeroOrden:id,
-        // CICliente:CICliente,
-        // TipoEquipo:TipoEquipo,
-        // Modelo:Modelo,
-        // TrabajoARealizar:TrabajoARealizar,
-        // TipoServicio:TipoServicio,
-        // FechaRecibido:da.FechaRecibido,
-        // FechaFinalizado:FechaFinalizado,
-        // Tecnico:Tecnico,
-        // PrecioReparacion:PrecioReparacion,
-        IdEstado:nuevoEstado
-        // Nota:nota
+        IdEstado:nuevoEstado,
+        FechaFinalizado: ' '
       };
 
       console.log(data);
 
       await axios.put(`http://localhost:62164/api/servicio/ModificarEstado/${id}`, data);
-
+      
       
       setServicios((prevServicios) => {
         return prevServicios.map((servicio) =>
@@ -415,8 +406,6 @@ export default function ListaServicios() {
 
 
   );
-
-
 }
 
 

@@ -59,16 +59,6 @@ export default function FormularioReparacion() {
     }
   
 
-  //  const handleBlurNumeroOrden = () => {
-  //   let estaPresente = servicios.some((servicio) => servicio.numeroOrden === ordenBuscado);
-  //   console.log(ordenBuscado)
-  //   console.log(estaPresente)
-  //   console.log(errorNumeroOrden)
-  //   if(estaPresente)
-  //   setErrorNumeroOrden(true);
-  //   console.log(errorNumeroOrden)
-  // };
-
   const handleBlurNumeroOrden = () => {
     let estaPresente = false;
     console.log(ordenBuscado);
@@ -85,35 +75,6 @@ export default function FormularioReparacion() {
     setErrorNumeroOrden(estaPresente);
     setEditando(estaPresente);
   };
-
-
-  // const handleBlurNumeroOrden = () => {
-  //   let resultado = []
-  //   let estaPresente = false;
-  //   console.log(ordenBuscado)
-  //   // console.log(estaPresente)
-  //   // console.log(errorNumeroOrden)
-
-  //   resultado = servicios.forEach((servicio) => {
-  //     console.log(servicio.NumeroOrden)
-  //     if (servicio.NumeroOrden.includes(ordenBuscado)) {
-  //       console.log(estaPresente)
-  //       estaPresente = true;
-  //       console.log(estaPresente)
-  //     }
-  //   });
-  
-  //   setErrorNumeroOrden(estaPresente);
-  // };
-  
- 
-      
-
-  
-
-
-
-  
   
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -243,7 +204,6 @@ const handleSubmit = async (e) => {
           />
         </div>
         <div className="form-group">
-           {/* abajo esto es el selector de el tipo servicio ( PC - CELULAR - IMPRESORA) */}
           <TextField
             label='Tipo de Servicio'
             type="text"
@@ -282,21 +242,6 @@ const handleSubmit = async (e) => {
             }}
           />
         </div>
-        {/* <div className="form-group">
-          <TextField
-            label='Fecha Estimada de Reparación'
-            type="date"
-            name="fechaFinalizado"
-            value={formData.fechaFinalizado}
-            onChange={handleInputChange}
-            required
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </div> */}
-         {/* abajo esto es el selector de el tecnico */}
         <div className="form-group">
           <TextField
             label='Técnico'
@@ -334,18 +279,6 @@ const handleSubmit = async (e) => {
             fullWidth
           />
         </div>
-        {/* abajo esto es el selector del estaado */}
-        {/* <div className="form-group">
-          <TextField
-            label='Estado'
-            type="number"
-            name="idEstado"
-            value={formData.idEstado}
-            onChange={handleInputChange}
-            required
-            fullWidth
-          />
-        </div> */}
         <div className="form-group">
           <TextField
             label='Notas'
@@ -353,7 +286,6 @@ const handleSubmit = async (e) => {
             name="nota"
             value={formData.nota}
             onChange={handleInputChange}
-            required
             disabled={editando}
             fullWidth
           />
