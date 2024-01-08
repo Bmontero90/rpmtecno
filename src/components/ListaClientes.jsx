@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import {Paper, Table, TableBody, TableContainer, TableHead, TableRow, Button,OutlinedInput, InputAdornment} from '@mui/material';
+import {Paper, Table, TableBody, TableContainer, TableHead, TableRow, Button,OutlinedInput, InputAdornment, Typography} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export default function Clientes() {
 
@@ -65,8 +66,8 @@ useEffect(() => {
     return(
         
         <TableContainer component={Paper}>
-      <h1>Lista de Clientes</h1>
-      <Button href='/formularioCliente' variant="contained" color="success" sx={{mb:4}}>Nuevo Cliente</Button>
+      <Typography variant='h4' sx={{ mb: 2 }}>Listado de Clientes</Typography>
+      <Button href='/formularioCliente' variant="contained" color="success" startIcon={<AddCircleOutlineIcon />} size="small" sx={{ mb: 2 }}>Añadir</Button>
       <OutlinedInput value={clienteBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
       startAdornment={
         <InputAdornment position="start">

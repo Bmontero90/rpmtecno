@@ -1,9 +1,16 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormularioReparacion.css';
 import axios from 'axios';
 import { Alert, Button, Container, MenuItem, TextField } from '@mui/material';
 
-export default function FormularioCliente() { 
+export default function FormularioCliente() {
+  const [clientes, setClientes] = useState([]);
+  const [errorClienteExistente,setErrorClienteExistente] = useState(false);
+  const [errorCI,setErrorCI] = useState(false);
+  const [ciBuscado, setCIBuscado] = useState('');
+  const [editando, setEditando] = useState(true);
+
+
   const [formData, setFormData] = useState({
     CI : '',
     Nombre : '',   
@@ -12,38 +19,94 @@ export default function FormularioCliente() {
     Mail : ''    
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:62164/api/cliente');
+        setClientes(response.data);
+        
+      } catch (error) {
+        console.error('Error al obtener la lista de clientes', error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setCIBuscado(value);
+    let formattedValue = value;
+    
+
+    // Lógica para formatear la cédula
+    if (name === 'CI') {
+     // Eliminar puntos y guiones antes de aplicar el formato
+     formattedValue = value.replace(/\D/g, '');
+     
+      
+      }
+
+      setFormData({ ...formData, [name]: formattedValue });
+      // Validar longitud de la cédula al ingresar el valor
+      if (name === 'CI' && (value.length === 7 || value.length === 8)) {
+        setErrorCI(false);
+  
+    }
+   
+     
+  };
+
+  const handleBlurNumeroCI = () => {
+    let estaPresente = false;
+    console.log(ciBuscado);
+  
+    clientes.forEach((cliente) => {
+      console.log(cliente.CI);
+      if (cliente.CI.toString() === ciBuscado.toString()) {
+        console.log(estaPresente);
+        estaPresente = true;
+        console.log(estaPresente);
+      }
+    });
+  
+    setErrorClienteExistente(estaPresente);
+    setEditando(estaPresente);
   };
 
   
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  const {
-      CI,
-      Nombre,
-      Apellido,
-      Telefono,
-      Mail
-  } = formData;
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await axios.post('http://localhost:62164/api/cliente', {
-      CI,
-      Nombre,
-      Apellido,
-      Telefono,
-      Mail
-    });
-    console.log(response);
-    console.log('Cliente registrado correctamente.');
-    window.location.href = '/clientes';    
-  } catch (error) {
-    console.error('Error al registrar el cliente:', error);
-  }
-};
+    const { CI, Nombre, Apellido, Telefono, Mail } = formData;
+
+    if (CI.length !== 7 && CI.length !== 8) {
+      setErrorCI(true);
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:62164/api/cliente', {
+        CI,
+        Nombre,
+        Apellido,
+        Telefono,
+        Mail,
+      });
+
+      console.log(response);
+      console.log('Cliente registrado correctamente.');
+      window.location.href = '/clientes';
+    } catch (error) {
+      console.error('Error al registrar el cliente:', error);
+    }
+  };
+
+
 
   return (
     <Container sx={{mt:5}}>
@@ -55,6 +118,13 @@ const handleSubmit = async (e) => {
           name='CI'
           value={formData.CI}
           onChange={handleInputChange}
+          onBlur={handleBlurNumeroCI}
+          helperText={errorClienteExistente
+            ? 'El cliente ya está registrado'
+            : errorCI
+            ? 'Formato de cédula incorrecto'
+            : ''}
+          error={errorClienteExistente || errorCI}
           required
           fullWidth 
           />
@@ -65,6 +135,7 @@ const handleSubmit = async (e) => {
             name="Nombre"
             value={formData.Nombre}
             onChange={handleInputChange}
+            disabled={editando}
             required
             fullWidth 
           />
@@ -75,6 +146,7 @@ const handleSubmit = async (e) => {
             name="Apellido"
             value={formData.Apellido}
             onChange={handleInputChange}
+            disabled={editando}
             required
             fullWidth 
           />
@@ -85,6 +157,7 @@ const handleSubmit = async (e) => {
             name="Telefono"
             value={formData.Telefono}
             onChange={handleInputChange}
+            disabled={editando}
             required
             fullWidth 
           />
@@ -96,11 +169,12 @@ const handleSubmit = async (e) => {
             name="Mail"
             value={formData.Mail}
             onChange={handleInputChange}
+            disabled={editando}s
             required
             fullWidth 
           />
         </div>
-        <Button variant="contained" type="submit">Crear</Button>     
+        <Button variant="contained" type="submit" disabled={editando}>Crear</Button>     
       </form>
     </Container>
   );

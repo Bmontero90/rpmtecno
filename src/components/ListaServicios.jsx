@@ -28,7 +28,8 @@ export default function ListaServicios() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
+  
+  
   const handleEditEstado = async (id,nuevoEstado,nuevaFecha) => {
     try {
       const data = 
@@ -347,6 +348,7 @@ export default function ListaServicios() {
                   <IconButton onClick={() => handleDelete(servicio.NumeroOrden)}>
                     <DeleteIcon />
                   </IconButton>
+                  
                 </Box>
               </StyledTableCell>
               <Modal
@@ -407,14 +409,3 @@ export default function ListaServicios() {
 
   );
 }
-
-
-
-
-
-
-
-
-
-
-
