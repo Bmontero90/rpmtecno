@@ -158,6 +158,7 @@ export default function FormularioCliente() {
             value={formData.Telefono}
             onChange={handleInputChange}
             disabled={editando}
+            helperText="Debe ingresar el código de area y el número sin el 0. Ej: 59897258968"
             required
             fullWidth 
           />

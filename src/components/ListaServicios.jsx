@@ -9,6 +9,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -18,43 +23,20 @@ export default function ListaServicios() {
   const [estados, setEstados] = useState([]);
   const [tecnicos, setTecnicos] = useState([]);
   const [tiposServicios, setTiposServicios] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [ordenBuscado, setOrdenBuscado] = useState('');
   const [tipoServicioFiltrado, setTipoServicioFiltrado] = useState('');
   const [fechaRecibidoFiltrado, setFechaRecibidoFiltrado] = useState('');
   const [estadoFiltrado, setEstadoFiltrado] = useState('');
   const [tecnicoFiltrado, setTecnicoFiltrado] = useState('');
+  const [numeroCliente, setNumeroCliente] = useState('');
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null)
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);  
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const [openDialogo, setOpenDialogo] = React.useState(false);
+  const handleOpenDialogo = () => setOpenDialogo(true);
   
-  
-  const handleEditEstado = async (id,nuevoEstado,nuevaFecha) => {
-    try {
-      const data = 
-      {
-        NumeroOrden:id,
-        IdEstado:nuevoEstado,
-        FechaFinalizado: ' '
-      };
-
-      console.log(data);
-
-      await axios.put(`http://localhost:62164/api/servicio/ModificarEstado/${id}`, data);
-      
-      
-      setServicios((prevServicios) => {
-        return prevServicios.map((servicio) =>
-          servicio.NumeroOrden === id
-            ? { ...servicio, IdEstado: nuevoEstado }
-            : servicio
-        );
-      });
-    } catch (error) {
-      console.error('Error al guardar el estado:', error);
-    }
-  };
 
 
   useEffect(() => {
@@ -72,6 +54,9 @@ export default function ListaServicios() {
         const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
         setTecnicos(tecnicosResponse.data);
 
+        const clientesResponse = await axios.get('http://localhost:62164/api/cliente');
+        setClientes(clientesResponse.data);
+
       } catch (error) {
         console.error('Error al obtener la lista de servicios y estados', error);
       }
@@ -79,6 +64,12 @@ export default function ListaServicios() {
 
     fetchData();
   }, []);
+
+
+  
+
+  
+
 
 
   const buscador = (e) => {
@@ -104,6 +95,67 @@ export default function ListaServicios() {
 
   //Metodos de filtrado
   let resultado = []
+
+  const handleCloseDialogoCancelar =  ()  => {
+    setOpenDialogo(false);
+    handleEditEstado(false);
+  }
+
+  const handleEditEstado = async (id,CICliente,nuevoEstado) => {
+    try {
+      const data = 
+      {
+        NumeroOrden:id,
+        IdEstado:nuevoEstado,
+        FechaFinalizado: ' '
+      };
+      
+      await axios.put(`http://localhost:62164/api/servicio/ModificarEstado/${id}`, data);
+      
+      
+      setServicios((prevServicios) => {
+        return prevServicios.map((servicio) =>
+          servicio.NumeroOrden === id
+            ? { ...servicio, IdEstado: nuevoEstado }
+            : servicio
+        );
+      });
+
+      
+
+      if (nuevoEstado === 4) {
+        const numCli = clientes.find((ci) => ci.CI === CICliente)?.Telefono;
+        handleOpenDialogo(numCli);
+        setNumeroCliente(numCli)
+               
+      }
+      
+      
+   
+    } catch (error) {
+      console.error('Error al guardar el estado:', error);
+    }
+  };
+  
+  const handleCloseDialogo = () => {
+    
+
+    setOpenDialogo(false);  
+    // Verifica si el número de teléfono del cliente está disponible
+    if (numeroCliente) {
+      // Construye el enlace de WhatsApp con el número del cliente
+      const enlaceWhatsApp = `https://api.whatsapp.com/send?phone=${numeroCliente}&text=${encodeURIComponent('Hola, su reparación está finalizada, puede retirar en la sucursal.')}`;
+            // const enlaceWhatsApp = `https://api.whatsapp.com/send?phone=${(numeroCliente)}&text=Hola,%20vengo%20de%20su%20sitio%20web`;
+            console.log(enlaceWhatsApp);
+            console.log(numeroCliente);
+            
+      // Redirige al usuario al enlace de WhatsApp
+      window.open(enlaceWhatsApp, '_blank');
+    } else {
+      console.error('Número de teléfono del cliente no disponible.');
+    }
+  };
+
   if (!ordenBuscado) {
     resultado = servicios
   } else {
@@ -326,7 +378,7 @@ export default function ListaServicios() {
               <StyledTableCell>
                 <Select size="small" variant="standard"
                   value={servicio.IdEstado}
-                  onChange={(e) => handleEditEstado(servicio.NumeroOrden, e.target.value)}
+                  onChange={(e) => handleEditEstado(servicio.NumeroOrden,servicio.CICliente, e.target.value)}
                 >
                   {estados.map((estado) => (
                     <MenuItem key={estado.IdEstado} value={estado.IdEstado}>
@@ -348,7 +400,6 @@ export default function ListaServicios() {
                   <IconButton onClick={() => handleDelete(servicio.NumeroOrden)}>
                     <DeleteIcon />
                   </IconButton>
-                  
                 </Box>
               </StyledTableCell>
               <Modal
@@ -400,6 +451,27 @@ export default function ListaServicios() {
                   )}
                 </Box>
               </Modal>
+              <Dialog
+        open={openDialogo}
+        onClose={handleCloseDialogo}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"¿Desea finalizar la reparación?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Se redirigirá a Whatsapp para enviar mensaje de aviso
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogoCancelar}>Cancelar</Button>
+          <Button onClick={handleCloseDialogo}>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
             </StyledTableRow >
           ))}
         </TableBody>
