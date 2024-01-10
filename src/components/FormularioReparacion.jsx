@@ -6,6 +6,7 @@ import { Autocomplete, Button, Container, MenuItem, TextField, Typography } from
 export default function FormularioReparacion() { 
   
   const [servicios, setServicios] = useState([]);
+  const [tecnicos, setTecnicos] = useState([]);
   const currentDate = new Date().toISOString().split('T')[0];
   const [errorNumeroOrden,setErrorNumeroOrden] = useState(false);
   const [ordenBuscado, setOrdenBuscado] = useState('');
@@ -25,7 +26,8 @@ export default function FormularioReparacion() {
     fechaRecibido : currentDate,
     fechaFinalizado : '',
     nota : '',
-    idEstado : '1'
+    idEstado : '1',
+    Borrado : 0
   });  
 
 
@@ -44,6 +46,10 @@ export default function FormularioReparacion() {
         setServicios(responseServicios.data);
 
         setClientes(formattedClientes);
+
+        const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
+        setTecnicos(tecnicosResponse.data);
+
       } catch (error) {
         console.error('Error al obtener la lista de clientes', error);
       }
@@ -125,14 +131,14 @@ const handleSubmit = async (e) => {
       <form onSubmit={handleSubmit}>      
         <div className="form-group">  
           <TextField 
-          label='Numero de Orden'
+          label='Número de Orden'
           name='numeroOrden'
           value={formData.numeroOrden}
           onChange={handleInputChange}
           onBlur={handleBlurNumeroOrden}
           required
           fullWidth
-          helperText={errorNumeroOrden ? 'El numero de orden ya existe' : ''}
+          helperText={errorNumeroOrden ? 'El número de orden ya existe' : ''}
           error={errorNumeroOrden}
           />
         </div>
@@ -254,15 +260,11 @@ const handleSubmit = async (e) => {
             disabled={editando}
             fullWidth
           >
-            <MenuItem value='1'>
-            Reparador de PC
-          </MenuItem>
-          <MenuItem value='2'>
-          Reparador de celular
-          </MenuItem>
-          <MenuItem value='3'>
-          Reparador de impresoras
-          </MenuItem>
+            {tecnicos.map(tecnico => (
+    <MenuItem key={tecnico.NombreEmpleado} value={tecnico.IdEmpleado}>
+      {tecnico.NombreEmpleado}
+    </MenuItem>
+  ))}
           
           </TextField>
           

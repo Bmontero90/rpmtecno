@@ -31,11 +31,12 @@ export default function ListaServicios() {
   const [tecnicoFiltrado, setTecnicoFiltrado] = useState('');
   const [numeroCliente, setNumeroCliente] = useState('');
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null)
-  const [open, setOpen] = React.useState(false);  
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [openDialogo, setOpenDialogo] = React.useState(false);
   const handleOpenDialogo = () => setOpenDialogo(true);
+ 
   
 
 
@@ -53,6 +54,7 @@ export default function ListaServicios() {
 
         const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
         setTecnicos(tecnicosResponse.data);
+        
 
         const clientesResponse = await axios.get('http://localhost:62164/api/cliente');
         setClientes(clientesResponse.data);
@@ -98,7 +100,7 @@ export default function ListaServicios() {
 
   const handleCloseDialogoCancelar =  ()  => {
     setOpenDialogo(false);
-    handleEditEstado(false);
+    
   }
 
   const handleEditEstado = async (id,CICliente,nuevoEstado) => {
@@ -127,6 +129,7 @@ export default function ListaServicios() {
         const numCli = clientes.find((ci) => ci.CI === CICliente)?.Telefono;
         handleOpenDialogo(numCli);
         setNumeroCliente(numCli)
+        setBloquearEstado(true);
                
       }
       
@@ -269,11 +272,11 @@ export default function ListaServicios() {
               <MenuItem value='Reparación PC'>
                 Reparación PC
               </MenuItem>
-              <MenuItem value='Reparación de celular'>
-                Reparación de celular
+              <MenuItem value='Reparación de Celular'>
+                Reparación de Celular
               </MenuItem>
-              <MenuItem value='Reparación de impresora'>
-                Reparación de impresora
+              <MenuItem value='Reparación de Impresora'>
+                Reparación de Impresora
               </MenuItem>
             </TextField>
           </Grid>
@@ -295,42 +298,42 @@ export default function ListaServicios() {
               <MenuItem value='Ingresado'>
                 Ingresado
               </MenuItem>
-              <MenuItem value='En proceso de reparación'>
-                En proceso de reparación
+              <MenuItem value='En Proceso de Reparación'>
+                En Proceso de Reparación
               </MenuItem>
-              <MenuItem value='Esperando repuesto'>
-                Esperando repuesto
+              <MenuItem value='Esperando Repuesto'>
+                Esperando Repuesto
               </MenuItem>
-              <MenuItem value='Reparación finalizada'>
-                Reparación finalizada
+              <MenuItem value='Reparación Finalizada'>
+                Reparación Finalizada
+              </MenuItem>
+              <MenuItem value='Reparación Cancelada'>
+                Reparación Cancelada
               </MenuItem>
             </TextField>
           </Grid>
           <Grid item xs={3}>
-            <TextField
-              sx={{ mb: 4 }}
-              label='Técnico'
-              type="text"
-              name="Tecnico"
-              size="small"
-              fullWidth
-              select
-              value={tecnicoFiltrado}
-              onChange={filtroTecnico}
-            >
-              <MenuItem>
-                Todos
-              </MenuItem>
-              <MenuItem value='Reparador de PC'>
-                Reparador de PC
-              </MenuItem>
-              <MenuItem value='Reparador de celular'>
-                Reparador de celular
-              </MenuItem>
-              <MenuItem value='Reparador de impresoras'>
-                Reparador de impresoras
-              </MenuItem>
-            </TextField>
+          <TextField
+  sx={{ mb: 4 }}
+  label='Técnico'
+  type="text"
+  name="Tecnico"
+  size="small"
+  fullWidth
+  select
+  value={tecnicoFiltrado}
+  onChange={filtroTecnico}
+>
+  <MenuItem value="">
+    Todos
+  </MenuItem>
+  {tecnicos.map(tecnico => (
+    <MenuItem key={tecnico.NombreEmpleado} value={tecnico.NombreEmpleado}>
+      {tecnico.NombreEmpleado}
+    </MenuItem>
+  ))}
+</TextField>
+            
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -458,7 +461,7 @@ export default function ListaServicios() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"¿Desea finalizar la reparación?"}
+          {"La reparación se finalizó, ¿desea enviar mensaje de confirmación?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -467,17 +470,24 @@ export default function ListaServicios() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialogoCancelar}>Cancelar</Button>
+          <Link to={`/detalleGarantia/${servicio.NumeroOrden}`}>
           <Button onClick={handleCloseDialogo}>
             Confirmar
           </Button>
+          </Link>
         </DialogActions>
       </Dialog>
+
+
+      {/* <DetalleGarantia/>   */}
+
+
+
+
             </StyledTableRow >
           ))}
         </TableBody>
       </Table >
     </TableContainer>
-
-
   );
 }

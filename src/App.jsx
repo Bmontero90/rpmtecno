@@ -6,6 +6,7 @@ import FormularioReparacion from './components/FormularioReparacion';
 import { Route, Routes } from 'react-router-dom';
 import FormularioCliente from './components/FormularioCliente';
 import DetalleServicio from './components/DetalleServicio';
+import DetalleGarantia from './components/DetalleGarantia';
 
 
 
@@ -19,6 +20,7 @@ export default function App(){
         <Route path='/clientes' element={<ListaClientes/> } />
         <Route path='/formularioCliente' element={<FormularioCliente/> } />
         <Route path='/detalleServicio/:NumeroOrden' element={<DetalleServicio/> } />
+        <Route path='/detalleGarantia/:NumeroOrden' element={<DetalleGarantia/> } />
       </Routes>
 
     </div>
