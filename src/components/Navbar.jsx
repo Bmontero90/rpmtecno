@@ -10,6 +10,7 @@ export default function Navbar() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,6 +32,12 @@ export default function Navbar() {
           </Button>
           <Button href='/clientes' sx={{color:'white', textTransform: 'none'}}>
             Clientes
+          </Button>
+          <Button href='/listaGarantias' sx={{color:'white', textTransform: 'none'}}>
+            Garantias
+          </Button>
+          <Button href='/login' sx={{color:'white', textTransform: 'none'}}>
+            Login
           </Button>
           <Button
             sx={{

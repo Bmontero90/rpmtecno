@@ -157,6 +157,8 @@ export default function ListaServicios() {
     } else {
       console.error('Número de teléfono del cliente no disponible.');
     }
+
+
   };
 
   if (!ordenBuscado) {
@@ -470,7 +472,7 @@ export default function ListaServicios() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialogoCancelar}>Cancelar</Button>
-          <Link to={`/detalleGarantia/${servicio.NumeroOrden}`}>
+          <Link to={`/detalleGarantia`}>
           <Button onClick={handleCloseDialogo}>
             Confirmar
           </Button>

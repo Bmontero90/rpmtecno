@@ -1,93 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Button, Container, MenuItem, TextField } from '@mui/material';
+import { Alert, Button, Container, MenuItem, TextField } from '@mui/material';
 
-export default function DetalleGarantia() {
-  const { NumeroOrden } = useParams();
-  const [detalleGarantia, setDetalleGarantia] = useState(null);
-  const [formulario, setFormulario] = useState({
-    Meses: ''
-   
+export default function FormularioCliente() {
+  const [garantias, setGarantias] = useState([]);
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
+  const [formData, setFormData] = useState({
+    NumeroOrden : '',
+    FechaInicio : formattedDate,   
+    FechaFinal : '',
+    
   });
- 
 
   useEffect(() => {
-    const fetchDetalleGarantia = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:62164/api/garantia/${NumeroOrden}`);
-        setDetalleGarantia(response.data);
-        // También actualiza el estado del formulario con los datos del cliente
-        setFormulario(response.data);
-        console.log(response);
+        const response = await axios.get('http://localhost:62164/api/garantia');
+        setGarantias(response.data);
+        console.log(garantias)
+        
       } catch (error) {
-        console.error('Error al obtener los detalles del servicio', error);
+        console.error('Error al obtener la lista de Garantias', error);
       }
     };
- 
-    if (NumeroOrden) {
-        fetchDetalleGarantia();
-    }
-  }, [NumeroOrden]);
 
-const handleSubmit = async (e) => {
-        e.preventDefault();
-      
-        const {
-            Meses
-        } = formData;
-      
-        try {
-          const response = await axios.post('http://localhost:62164/api/garantia', {
-            Meses
-          });
-          console.log(response);
-          console.log('Reparación registrada correctamente.');
-          window.location.href = '/servicios';
-          
-        } catch (error) {
-          console.error('Error al registrar la reparación:', error);
-        }
-      };
+    fetchData();
+  }, []); 
 
-    //   const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFormulario((prevFormulario) => ({
-    //       ...prevFormulario,
-    //       [name]: value,
-    //     }));
-    //   };
-      
 
-    return(
-        <>
-        <h1>Detalles Garantia</h1>
-        <Container>
-          <TextField
-            label='Meses de la Garantía'
-            name="Meses"
-            value={formulario.Meses}
-            required
-            fullWidth
-            select
-            helperText="Por favor, seleccione cantidad de meses de la garantía"
-          >
-          <MenuItem value='6'>
-            6
-          </MenuItem>
-          <MenuItem value='12'>
-            12
-          </MenuItem>
-          </TextField>
-            <Button variant="contained" type="submit">
-              Guardar
-            </Button>
-         
-        </Container>
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
     
-      </>
-    )
-}
-
+   
+     
+  };
 
   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { NumeroOrden, FechaInicio, FechaFinal} = formData;
+
+    try {
+
+      const response = await axios.post('http://localhost:62164/api/garantia', {
+        NumeroOrden,
+        FechaInicio,
+        FechaFinal,
+      });
+      console.log(response);
+      console.log('Garantia creada correctamente.');
+      window.location.href = '/servicios';
+    } catch (error) {
+      console.error('Error :', error);
+    }
+  };
+
+
+
+  return (
+    <Container sx={{mt:5}}>
+      <h2>Formulario de Garantia</h2>
+      <form onSubmit={handleSubmit}>      
+        <div className="form-group">  
+          <TextField 
+          label='Nùmero de Orden'
+          name='NumeroOrden'
+          value={formData.NumeroOrden}
+          onChange={handleInputChange}
+          fullWidth 
+          />
+        </div>
+        <div className="form-group">
+          <TextField
+            label='Fecha De Inicio'
+            name="FechaInicio"
+            value={formData.FechaInicio}
+            onChange={handleInputChange}
+            required
+            fullWidth 
+          />
+        </div>
+        <div className="form-group">
+          <TextField
+            label='Fecha Final'
+            name="FechaFinal"
+            value={formData.FechaFinal}
+            onChange={handleInputChange}
+            required
+            fullWidth 
+          />
+        </div>
+       
+        <Button variant="contained" type="submit" >Crear</Button>     
+      </form>
+    </Container>
+  );
+};
+
+
