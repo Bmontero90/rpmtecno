@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Password } from '@mui/icons-material';
+import { Box, Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import {Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+
 
 const LoginForm = () => {
-  // Estados para los campos de usuario y contraseña
   const [CI, setCI] = useState('');
   const [password, setPassword] = useState('');
   const [usuarios, setUsuarios] = useState([]);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const { login } = useAuth(); 
+  const navigate = useNavigate();
+  const [errorLogin,setErrorLogin] = useState(false);
+
+
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
  
 
   useEffect(() => {
@@ -36,60 +52,132 @@ const LoginForm = () => {
   };
 
   // Manejar el envío del formulario
-  const handleSubmit  = async () => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    try {
-      // Realiza la solicitud para actualizar los datos del cliente en el servidor
-      const response = await axios.get(`http://localhost:62164/api/usuario/${CI}`);
-      const usuario = response.data;
-      console.log('Usuario', usuario);
+  try {
+    // Realiza la solicitud para actualizar los datos del cliente en el servidor
+    const response = await axios.get(`http://localhost:62164/api/usuario/${CI}`);
+    const usuario = response.data;
+    console.log('Usuario.CI:', usuario.CI);
+    console.log('Usuario.Pass:', usuario.Pass);
+    console.log('Usuario', usuario);
 
-      // Verifica si el usuario existe y si la contraseña coincide
-      if (usuario.CI == CI && usuario.Pass == password) {
-        console.log('Inicio de sesión exitoso');
-        // Realiza la redirección a la página de clientes
-        window.location.href = '/clientes';
-      } else {
-        console.log('Cédula o contraseña incorrectas');
-        // Muestra un mensaje de error o realiza acciones adicionales en caso de credenciales incorrectas
-      }
-    } catch (error) {
-      console.error('Error al obtener el usuario', error);
-      // Muestra un mensaje de error o realiza acciones adicionales en caso de error de solicitud
+    // Verifica si el usuario existe y si la contraseña coincide
+    if (usuario.CI == CI && usuario.Pass == password) {
+      console.log('Inicio de sesión exitoso');
+      // Realiza la redirección a la página de clientes
+      // Aquí podrías usar un enrutador de React en lugar de window.location.href
+      // para mantener la navegación dentro de la aplicación
+      login();
+        // Puedes almacenar el token u otra información de autenticación aquí
+        // localStorage.setItem('token', 'token_value');
+        navigate('/clientes');
+    } else {
+      setErrorLogin(true);
+      console.log('Cédula o contraseña incorrectas');
+      console.log('Valor almacenado en usuario.Pass:', usuario.Pass);
+      console.log('Valor ingresado en el formulario:', password);
+      console.log('Tipo de dato usuario.Pass:', typeof usuario.Pass);
+      console.log('Tipo de dato password:', typeof password);
+      // Muestra un mensaje de error o realiza acciones adicionales en caso de credenciales incorrectas
     }
+  } catch (error) {
+    console.error('Error al obtener el usuario', error);
+    // Muestra un mensaje de error o realiza acciones adicionales en caso de error de solicitud
   }
+}
 
 
  
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="CI">CI:</label>
-        <input
+    <Grid container justifyContent="center" alignItems="center" height="100vh">
+    <Box sx={{ width: 250, maxWidth: '100%', height: 400,textAlign: 'center'}}
+            autoComplete="off"
+        >
+    
+    <AccountCircleOutlinedIcon sx={{ fontSize: 60, mb: 2 }} />
+    <FormControl fullWidth sx={{ mb: 2 }} variant="outlined">
+          <InputLabel htmlFor="CI">Usuario</InputLabel>
+          <OutlinedInput
           type="int"
-          id="CI"
-          name="CI"
-          value={CI}
-          onChange={handleCIChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Contraseña:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handlePasswordChange}
-          required
-        />
-      </div>
-      <div>
-        <button type="submit">Iniciar sesión</button>
-      </div>
+            id="CI"
+            name="CI"
+            value={CI}
+            onChange={handleCIChange}
+            required
+            label="Cédula"
+            
+          />
+        </FormControl>
+        
+      {/* <TextField 
+          label='Contraseña'
+          
+           placeholder='Contraseña'
+           autoComplete="current-password"
+           fullWidth
+           sx={{mb:3}}
+           type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+           }
+          /> */}
+          <FormControl sx={{ mb: 1 }} variant="outlined">
+          <TextField
+  fullWidth
+  id="password"
+  name="password"
+  label="Contraseña"
+  type={showPassword ? 'text' : 'password'}
+  value={password}
+  onChange={handlePasswordChange}
+  autoComplete="current-password"
+  sx={{ mb: 2 }}
+  variant="outlined"
+  helperText={errorLogin ? 'Usuario y/o contraseña incorrectos, verifique' : ''}
+  error={errorLogin}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton
+          aria-label="toggle password visibility"
+          onClick={handleClickShowPassword}
+          onMouseDown={handleMouseDownPassword}
+          edge="end"
+        >
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
+        </FormControl>
+      
+      <Button
+      fullWidth
+      variant="contained"
+      type="submit"
+      sx={{bgcolor:'black'}}
+               >
+                Ingresar
+            </Button>
+        {/* <button type="submit">Iniciar sesión</button> */}
+         
+    
+    </Box>
+    </Grid>
     </form>
   );
 };
