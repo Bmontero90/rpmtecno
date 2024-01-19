@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
+import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import { useAuth } from './AuthContext';
 
 
@@ -40,18 +45,108 @@ export default function Navbar() {
           </Box>
           {isAuthenticated && (
                 <>
-                  <Button href='/servicios' sx={{ color: 'white', textTransform: 'none' }}>
+                  <Button href='/servicios' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+              <SettingsOutlinedIcon />
                     Órdenes
                   </Button>
-                  <Button href='/clientes' sx={{ color: 'white', textTransform: 'none' }}>
+                  <Button href='/clientes' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+              <ContactPhoneOutlinedIcon />
                     Clientes
                   </Button>
-                  <Button href='/listaGarantias' sx={{ color: 'white', textTransform: 'none' }}>
+                  <Button href='/listaGarantias' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+                  <SupportAgentOutlinedIcon />
                     Garantias
+                  </Button>
+                  <Button href='/empleados' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+                  <SupervisorAccountOutlinedIcon />
+                    Empleados
+                  </Button>
+                  <Button href='/tipoServicios' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+                  <ManageAccountsOutlinedIcon />
+                    Servicios
                   </Button>
                   <Button href='/login'
             sx={{
-              bgcolor: "black",
               color: "white",
               gap: 0.5,
               borderColor: 'black',

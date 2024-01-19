@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './FormularioReparacion.css';
 import axios from 'axios';
-import { Alert, Button, Container, MenuItem, TextField } from '@mui/material';
+import {Button, Container, TextField, Typography } from '@mui/material';
 
 export default function FormularioCliente() {
   const [clientes, setClientes] = useState([]);
@@ -110,7 +109,7 @@ export default function FormularioCliente() {
 
   return (
     <Container sx={{mt:5}}>
-      <h2>Formulario de Cliente</h2>
+      <Typography variant='h4' sx={{mb:2}}>Formulario de Cliente</Typography>
       <form onSubmit={handleSubmit}>      
         <div className="form-group">  
           <TextField 

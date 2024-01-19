@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import './FormularioReparacion.css';
 import axios from 'axios';
 import { Autocomplete, Button, Container, MenuItem, TextField, Typography } from '@mui/material';
+
 
 export default function FormularioReparacion() { 
   
   const [servicios, setServicios] = useState([]);
   const [tecnicos, setTecnicos] = useState([]);
+  const [tipoServicios, setTipoServicios] = useState([]);
   const currentDate = new Date().toISOString().split('T')[0];
-  const [errorNumeroOrden,setErrorNumeroOrden] = useState(false);
   const [ordenBuscado, setOrdenBuscado] = useState('');
-  const [editando, setEditando] = useState(true);
  
 
   
   const [formData, setFormData] = useState({
-    numeroOrden : '',
+    
     ciCliente : '',   
     modelo : '',
     tipoEquipo : '',
@@ -50,6 +49,9 @@ export default function FormularioReparacion() {
         const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
         setTecnicos(tecnicosResponse.data);
 
+        const tipoServicioResponse = await axios.get('http://localhost:62164/api/tiposervicio');
+        setTipoServicios(tipoServicioResponse.data);
+
       } catch (error) {
         console.error('Error al obtener la lista de clientes', error);
       }
@@ -64,23 +66,6 @@ export default function FormularioReparacion() {
     setOrdenBuscado(value);
     }
   
-
-  const handleBlurNumeroOrden = () => {
-    let estaPresente = false;
-    console.log(ordenBuscado);
-  
-    servicios.forEach((servicio) => {
-      console.log(servicio.NumeroOrden);
-      if (servicio.NumeroOrden.toString() === ordenBuscado.toString()) {
-        console.log(estaPresente);
-        estaPresente = true;
-        console.log(estaPresente);
-      }
-    });
-  
-    setErrorNumeroOrden(estaPresente);
-    setEditando(estaPresente);
-  };
   
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -124,30 +109,15 @@ const handleSubmit = async (e) => {
   }
 };
 
-
   return (
     <Container sx={{mt:5}}>
-      <Typography variant='h4' sx={{mb:2}}>Formulario de reparación</Typography>
-      <form onSubmit={handleSubmit}>      
-        <div className="form-group">  
-          <TextField 
-          label='Número de Orden'
-          name='numeroOrden'
-          value={formData.numeroOrden}
-          onChange={handleInputChange}
-          onBlur={handleBlurNumeroOrden}
-          required
-          fullWidth
-          helperText={errorNumeroOrden ? 'El número de orden ya existe' : ''}
-          error={errorNumeroOrden}
-          />
-        </div>
+      <Typography variant='h4' sx={{mb:2}}>Formulario de Reparación</Typography>
+      <form onSubmit={handleSubmit}>          
         <div className="form-group">
         <Autocomplete
           disablePortal
           id="combo-box-demo"          
           options={clientes}
-          disabled={editando}
           getOptionLabel={(option) => (option ? option.label : '')}
           fullWidth
           onChange={(event, newValue) => {
@@ -180,7 +150,6 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth 
-            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -192,7 +161,6 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth
-            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -206,7 +174,6 @@ const handleSubmit = async (e) => {
             multiline
             rows={4}
             fullWidth 
-            disabled={editando}
           />
         </div>
         <div className="form-group">
@@ -218,19 +185,14 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth
-            disabled={editando}
             select
             helperText="Por favor, seleccione el servicio que desea realizar"
           >
-          <MenuItem value='1'>
-            Reparación PC
-          </MenuItem>
-          <MenuItem value='2'>
-            Reparación de celular
-          </MenuItem>
-          <MenuItem value='3'>
-            Reparación de impresora
-          </MenuItem>
+          {tipoServicios.map(tipo => (
+    <MenuItem key={tipo.NombreServicio} value={tipo.IdTipoServicio}>
+      {tipo.NombreServicio}
+    </MenuItem>
+  ))}
           </TextField>
         </div>
         <div className="form-group">
@@ -242,7 +204,6 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             required
             fullWidth
-            disabled={editando}
             InputLabelProps={{
               shrink: true,
             }}
@@ -257,7 +218,6 @@ const handleSubmit = async (e) => {
             onChange={handleInputChange}
             select
             required
-            disabled={editando}
             fullWidth
           >
             {tecnicos.map(tecnico => (
@@ -277,7 +237,6 @@ const handleSubmit = async (e) => {
             value={formData.precioReparacion}
             onChange={handleInputChange}
             required
-            disabled={editando}
             fullWidth
           />
         </div>
@@ -288,11 +247,10 @@ const handleSubmit = async (e) => {
             name="nota"
             value={formData.nota}
             onChange={handleInputChange}
-            disabled={editando}
             fullWidth
           />
         </div>        
-        <Button variant="contained" type="submit" fullWidth disabled={editando}>Registro</Button>
+        <Button variant="contained" type="submit" fullWidth >Registro</Button>
     </form>
     </Container>
   );

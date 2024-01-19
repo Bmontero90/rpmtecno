@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Alert, Button, Container, MenuItem, TextField } from '@mui/material';
+import { Alert, Button, Container, MenuItem, TextField, Typography } from '@mui/material';
 
-export default function FormularioCliente() {
+export default function FormularioGarantia() {
   const [garantias, setGarantias] = useState([]);
   const currentDate = new Date();
   const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
@@ -63,7 +63,7 @@ export default function FormularioCliente() {
 
   return (
     <Container sx={{mt:5}}>
-      <h2>Formulario de Garantia</h2>
+      <Typography variant='h4' sx={{mb:2}}>Formulario de Garantia</Typography>
       <form onSubmit={handleSubmit}>      
         <div className="form-group">  
           <TextField 

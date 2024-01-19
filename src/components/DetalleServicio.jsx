@@ -70,7 +70,7 @@ export default function DetalleServicio() {
   
   return(
     <>
-      <h1>Detalles Orden</h1>
+      <Typography variant='h4' sx={{mb:2}}>Detalles Orden</Typography>
       {detalleServicio ? (
         <Container>
           <Grid container spacing={2}>

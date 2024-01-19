@@ -7,17 +7,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ListaEmpleados = () => {
-  const [empleados, setEmpleados] = useState([]);
-  const [tecnicoBuscado, setTecnicoBuscado] = useState('');
+const ListaTipoServicios = () => {
+  const [tipoServicios, setTipoServicios] = useState([]);
+  const [tipoBuscado, setTipoBuscado] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/empleado');
-        setEmpleados(response.data);
+        const response = await axios.get('http://localhost:62164/api/tiposervicio');
+        setTipoServicios(response.data);
       } catch (error) {
-        console.error('Error al obtener la lista de empleados', error);
+        console.error('Error al obtener la lista de servicios', error);
       }
     };
 
@@ -25,17 +25,17 @@ const ListaEmpleados = () => {
   }, []); 
 
   const buscador = (e) => {
-    setTecnicoBuscado(e.target.value)
+    setTipoBuscado(e.target.value)
     console.log(e)
   }
 
-  const handleDelete = (IdEmpleado) => {
+  const handleDelete = (IdTipoServicio) => {
     if (window.confirm("¿Seguro que deseas eliminar este registro?")) {
       axios
-        .delete(`http://localhost:62164/api/empleado/${IdEmpleado}`)
+        .delete(`http://localhost:62164/api/tiposervicio/${IdTipoServicio}`)
         .then((response) => {
           console.log("Registro eliminado con éxito.");
-          setEmpleados(empleados.filter(empleado => empleado.IdEmpleado !== IdEmpleado));
+          setTipoServicios(tipoServicios.filter(tipo => tipo.IdTipoServicio !== IdTipoServicio));
         })
         .catch((error) => {
           console.error("Error al eliminar el registro:", error);
@@ -45,12 +45,12 @@ const ListaEmpleados = () => {
 
   //Metodo de filtrado
     let resultado = []
-    if(!tecnicoBuscado){
-        resultado = empleados
+    if(!tipoBuscado){
+        resultado = tipoServicios
     } else{
-        resultado = empleados.filter((dato) =>
-        dato.IdEmpleado.toString().includes(tecnicoBuscado) ||
-        dato.NombreEmpleado.toLowerCase().includes(tecnicoBuscado.toLocaleLowerCase())
+        resultado = tipoServicios.filter((dato) =>
+        dato.IdTipoServicio.toString().includes(tipoBuscado) ||
+        dato.NombreServicio.toLowerCase().includes(tipoBuscado.toLocaleLowerCase())
         )
     }
 
@@ -75,21 +75,11 @@ const ListaEmpleados = () => {
     }));
 
   return (
-    // <div>
-    //   <h1>Lista de Empleados</h1>
-    //   <ul>
-    //     {empleados.map(empleado => (
-    //       <li key={empleado.IdEmpleado}>
-    //         {empleado.NombreEmpleado} - Tipo de Servicio: {empleado.IdTipoServicio}
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </div>
     <TableContainer component={Paper}>
       <Container>
-    <Typography variant='h4' sx={{ mb: 2 }}>Listado de Empleados</Typography>
-    <Button href='/formularioEmpleado' variant="contained" color="success" startIcon={<AddCircleOutlineIcon />} size="small" sx={{ mb: 2 }}>Añadir</Button>
-    <OutlinedInput value={tecnicoBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
+    <Typography variant='h4' sx={{ mb: 2 }}>Listado de Servicios</Typography>
+    <Button href='/formularioTipoServicio' variant="contained" color="success" startIcon={<AddCircleOutlineIcon />} size="small" sx={{ mb: 2 }}>Añadir</Button>
+    <OutlinedInput value={tipoBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
     startAdornment={
       <InputAdornment position="start">
         <SearchIcon />
@@ -99,17 +89,17 @@ const ListaEmpleados = () => {
  <Table size="small">
     <TableHead >
         <TableRow >
-          <StyledTableCell>ID Tecnico</StyledTableCell>
-          <StyledTableCell>Nombre</StyledTableCell>
+          <StyledTableCell>ID Tipo Servicio</StyledTableCell>
+          <StyledTableCell>Nombre Servicio</StyledTableCell>
           <StyledTableCell>Acciones</StyledTableCell>            
         </TableRow>
       </TableHead>
       <TableBody>
-        {resultado.map(tecnico => (
-          <StyledTableRow key={tecnico.IdEmpleado}>
-            <StyledTableCell >{tecnico.IdEmpleado}</StyledTableCell >
-            <StyledTableCell >{tecnico.NombreEmpleado}</StyledTableCell >
-            <StyledTableCell ><IconButton onClick={() => handleDelete(tecnico.IdEmpleado)}>
+        {resultado.map(tipo => (
+          <StyledTableRow key={tipo.IdTipoServicio}>
+            <StyledTableCell >{tipo.IdTipoServicio}</StyledTableCell >
+            <StyledTableCell >{tipo.NombreServicio}</StyledTableCell >
+            <StyledTableCell ><IconButton onClick={() => handleDelete(tipo.IdTipoServicio)}>
                     <DeleteIcon />
                   </IconButton></StyledTableCell>
             
@@ -121,4 +111,4 @@ const ListaEmpleados = () => {
   );
 }
 
-export default ListaEmpleados;
+export default ListaTipoServicios;

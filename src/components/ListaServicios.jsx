@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import './FormularioReparacion.css';
 import { Box, Button, Container, Grid, IconButton, InputAdornment, MenuItem, Modal, OutlinedInput, Paper, Select, Table, TableBody, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
@@ -45,6 +44,7 @@ export default function ListaServicios() {
       try {
         const response = await axios.get('http://localhost:62164/api/servicio');
         setServicios(response.data);
+        console.log(response.data);
 
         const estadosResponse = await axios.get('http://localhost:62164/api/estadoservicio');
         setEstados(estadosResponse.data);
@@ -271,15 +271,11 @@ export default function ListaServicios() {
               <MenuItem>
                 Todos
               </MenuItem>
-              <MenuItem value='Reparación PC'>
-                Reparación PC
-              </MenuItem>
-              <MenuItem value='Reparación de Celular'>
-                Reparación de Celular
-              </MenuItem>
-              <MenuItem value='Reparación de Impresora'>
-                Reparación de Impresora
-              </MenuItem>
+              {tiposServicios.map(tipo => (
+    <MenuItem key={tipo.NombreServicio} value={tipo.NombreServicio}>
+      {tipo.NombreServicio}
+    </MenuItem>
+  ))}
             </TextField>
           </Grid>
           <Grid item xs={3}>
