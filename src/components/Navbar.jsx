@@ -6,6 +6,7 @@ import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccount
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import { useAuth } from './AuthContext';
 
 
@@ -144,6 +145,26 @@ export default function Navbar() {
             }}>
                   <ManageAccountsOutlinedIcon />
                     Servicios
+                  </Button>
+                  <Button href='/graficas' sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}>
+                  <BarChartOutlinedIcon />
+                    Gráficas
                   </Button>
                   <Button href='/login'
             sx={{

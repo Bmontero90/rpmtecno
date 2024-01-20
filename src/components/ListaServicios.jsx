@@ -67,13 +67,6 @@ export default function ListaServicios() {
     fetchData();
   }, []);
 
-
-  
-
-  
-
-
-
   const buscador = (e) => {
     setOrdenBuscado(e.target.value)
     console.log(e)

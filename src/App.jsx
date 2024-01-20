@@ -16,6 +16,7 @@ import ListaEmpleados from './components/ListaEmpleados';
 import FormularioEmpleado from './components/FormularioEmpleado';
 import ListaTipoServicios from './components/ListaTipoServicios';
 import FormularioTipoServicio from './components/FormularioTipoServicio';
+import Graficas from './components/Graficas';
 
 
 
@@ -36,6 +37,7 @@ export default function App(){
         <Route path='/detalleGarantia' element={<ProtectedRoute element={<DetalleGarantia />} />}/>
         <Route path='/listaGarantias' element={<ProtectedRoute element={<ListaGarantias />} />}/>
         <Route path='/tipoServicios' element={<ProtectedRoute element={<ListaTipoServicios />} />}/>
+        <Route path='/graficas' element={<ProtectedRoute element={<Graficas />} />}/>
         <Route path='/formularioTipoServicio' element={<ProtectedRoute element={<FormularioTipoServicio />} />}/>
         <Route path='/login' element={<Login/> } />
         <Route path="/*" element={<Navigate to="/login" />} />
