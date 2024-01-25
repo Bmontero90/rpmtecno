@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
+import {Box, Paper,Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import {Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
@@ -93,12 +93,14 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-    <Grid container justifyContent="center" alignItems="center" height="100vh">
-    <Box sx={{ width: 250, maxWidth: '100%', height: 400,textAlign: 'center'}}
+    <Grid container justifyContent="center" alignItems="center" height="80vh" >
+    <Box component={Paper} elevation={11}  sx={{ width: 250, maxWidth: '100%', height: 300,textAlign: 'center', p:2}}
             autoComplete="off"
         >
     
-    <AccountCircleOutlinedIcon sx={{ fontSize: 60, mb: 2 }} />
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb:4,mt:2 }}>
+            <img src="./logo.png" className='logo'  href='/' />
+          </Box>
     <FormControl fullWidth sx={{ mb: 2 }} variant="outlined">
           <InputLabel htmlFor="CI">Usuario</InputLabel>
           <OutlinedInput
@@ -111,29 +113,8 @@ const LoginForm = () => {
             label="Cédula"
             
           />
-        </FormControl>
-        
-      {/* <TextField 
-          label='Contraseña'
-          
-           placeholder='Contraseña'
-           autoComplete="current-password"
-           fullWidth
-           sx={{mb:3}}
-           type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-           }
-          /> */}
+        </FormControl>       
+      
           <FormControl sx={{ mb: 1 }} variant="outlined">
           <TextField
   fullWidth

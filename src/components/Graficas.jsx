@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Bar, BarChart, CartesianGrid, Label, Legend, ResponsiveContainer, Text, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Typography } from '@mui/material';
 
 export default function Graficas() {
@@ -60,7 +60,7 @@ export default function Graficas() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey='CantidadReparaciones' name='Cantidad de Reparaciones' fill='green' />
+            <Bar dataKey='CantidadReparaciones' name='Cantidad de Reparaciones' fill='#8884d8' />
           </BarChart>
         </ResponsiveContainer>
       )}

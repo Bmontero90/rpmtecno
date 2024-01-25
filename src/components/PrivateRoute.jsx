@@ -9,7 +9,7 @@ const PrivateRoute = ({ element, ...props }) => {
   return isAuthenticated ? (
     <Route element={element} {...props} />
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate to="/vistaClientes" replace />
   );
 };
 

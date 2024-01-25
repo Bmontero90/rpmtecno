@@ -8,6 +8,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import { useAuth } from './AuthContext';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,9 +23,8 @@ export default function Navbar() {
   const handleButtonClick = () => {
     if (isAuthenticated) {
       logout();
-    } else {
-      login();
-    }
+      
+    } 
     
   };
   console.log("authenticated:", isAuthenticated);
@@ -42,7 +42,9 @@ export default function Navbar() {
       <Container>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <img className="logo" href='/' src="./logo.png"></img>
+          <Link to="/vistaClientes">
+        <img className="logo" src="./logo.png" alt="Logo" />
+      </Link>
           </Box>
           {isAuthenticated && (
                 <>
@@ -166,7 +168,7 @@ export default function Navbar() {
                   <BarChartOutlinedIcon />
                     Gráficas
                   </Button>
-                  <Button href='/login'
+                  <Button
             sx={{
               color: "white",
               gap: 0.5,
@@ -190,11 +192,38 @@ export default function Navbar() {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleButtonClick}>
             <AccountCircleOutlinedIcon />
-             Cerrar Sesión
-          </Button>
+            Cerrar Sesión
+          </Button>        
                 </>
               )}
-          
+              {!isAuthenticated && (
+              <Button href='/login'
+            sx={{
+              color: "white",
+              gap: 0.5,
+              borderColor: 'black',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+              fontWeight: "bold",
+              textTransform: 'none',
+              '&:hover': {
+                bgcolor: "black",
+                borderColor: 'lime',
+                borderStyle: 'solid',
+                borderWidth: 2
+
+              },
+            }}
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleButtonClick}>
+            <AccountCircleOutlinedIcon />
+            Ingresar
+          </Button>
+          )}       
         </Toolbar>
         </Container>
       </AppBar>

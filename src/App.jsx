@@ -17,12 +17,14 @@ import FormularioEmpleado from './components/FormularioEmpleado';
 import ListaTipoServicios from './components/ListaTipoServicios';
 import FormularioTipoServicio from './components/FormularioTipoServicio';
 import Graficas from './components/Graficas';
+import VistaClientes from './components/VistaClientes';
 
 
 
 export default function App(){ 
 
   return (
+    <>
     <AuthProvider>
     <div className="App">
       <Navbar />
@@ -40,10 +42,12 @@ export default function App(){
         <Route path='/graficas' element={<ProtectedRoute element={<Graficas />} />}/>
         <Route path='/formularioTipoServicio' element={<ProtectedRoute element={<FormularioTipoServicio />} />}/>
         <Route path='/login' element={<Login/> } />
-        <Route path="/*" element={<Navigate to="/login" />} />
-      </Routes>     
+        <Route path='/vistaClientes' element={<VistaClientes/> } />
+        <Route path="/*" element={<Navigate to="/vistaClientes" />} />        
+      </Routes>      
     </div>
     </AuthProvider>
+    </>
   );
 }
 
@@ -51,6 +55,6 @@ function ProtectedRoute({ element }) {
   const { isAuthenticated } = useAuth();
 
   // Renderiza el componente solo si está autenticado, de lo contrario, redirige a /login
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  return isAuthenticated ? element : <Navigate to="/vistaClientes" />;
 }
 
