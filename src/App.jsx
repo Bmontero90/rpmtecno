@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import ListaServicios from './components/ListaServicios';
 import ListaClientes from './components/ListaClientes';
 import FormularioReparacion from './components/FormularioReparacion';
-import { Route, Routes, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthContext';
 import FormularioCliente from './components/FormularioCliente';
 import DetalleServicio from './components/DetalleServicio';
