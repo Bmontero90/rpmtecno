@@ -14,7 +14,7 @@ const ListaTipoServicios = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/tiposervicio');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
         setTipoServicios(response.data);
       } catch (error) {
         console.error('Error al obtener la lista de servicios', error);
@@ -32,7 +32,7 @@ const ListaTipoServicios = () => {
   const handleDelete = (IdTipoServicio) => {
     if (window.confirm("¿Seguro que deseas eliminar este registro?")) {
       axios
-        .delete(`http://localhost:62164/api/tiposervicio/${IdTipoServicio}`)
+        .delete(`https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio/${IdTipoServicio}`)
         .then((response) => {
           console.log("Registro eliminado con éxito.");
           setTipoServicios(tipoServicios.filter(tipo => tipo.IdTipoServicio !== IdTipoServicio));

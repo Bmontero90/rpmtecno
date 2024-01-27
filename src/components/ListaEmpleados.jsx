@@ -14,7 +14,7 @@ const ListaEmpleados = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/empleado');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
         setEmpleados(response.data);
       } catch (error) {
         console.error('Error al obtener la lista de empleados', error);
@@ -32,7 +32,7 @@ const ListaEmpleados = () => {
   const handleDelete = (IdEmpleado) => {
     if (window.confirm("¿Seguro que deseas eliminar este registro?")) {
       axios
-        .delete(`http://localhost:62164/api/empleado/${IdEmpleado}`)
+        .delete(`https://apirpmtecnodeploy.azurewebsites.net/api/empleado/${IdEmpleado}`)
         .then((response) => {
           console.log("Registro eliminado con éxito.");
           setEmpleados(empleados.filter(empleado => empleado.IdEmpleado !== IdEmpleado));

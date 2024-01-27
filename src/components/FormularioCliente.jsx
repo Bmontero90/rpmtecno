@@ -21,7 +21,7 @@ export default function FormularioCliente() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/cliente');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/cliente');
         setClientes(response.data);
         
       } catch (error) {
@@ -89,7 +89,7 @@ export default function FormularioCliente() {
     }
 
     try {
-      const response = await axios.post('http://localhost:62164/api/cliente', {
+      const response = await axios.post('https://apirpmtecnodeploy.azurewebsites.net/api/cliente', {
         CI,
         Nombre,
         Apellido,

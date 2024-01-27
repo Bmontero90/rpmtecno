@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Box, Paper,Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+//import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
@@ -28,7 +28,7 @@ const LoginForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/usuario');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/usuario');
         setUsuarios(response.data);
         const listaUsuario = response.data;
         console.log('ListaUsuarios', listaUsuario);
@@ -57,7 +57,7 @@ const LoginForm = () => {
 
   try {
     // Realiza la solicitud para actualizar los datos del cliente en el servidor
-    const response = await axios.get(`http://localhost:62164/api/usuario/${CI}`);
+    const response = await axios.get(`https://apirpmtecnodeploy.azurewebsites.net/api/usuario/${CI}`);
     const usuario = response.data;
     console.log('Usuario.CI:', usuario.CI);
     console.log('Usuario.Pass:', usuario.Pass);
