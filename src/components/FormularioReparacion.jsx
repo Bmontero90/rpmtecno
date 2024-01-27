@@ -35,21 +35,21 @@ export default function FormularioReparacion() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/cliente');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/cliente');
         console.log('Clientes desde la API:', response.data);
 
         const formattedClientes = response.data.map((cliente) => ({ label: cliente.Nombre + ' ' + cliente.Apellido, value: cliente.CI }));
         console.log('Clientes formateados:', formattedClientes);
 
-        const responseServicios = await axios.get('http://localhost:62164/api/servicio');
+        const responseServicios = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/servicio');
         setServicios(responseServicios.data);
 
         setClientes(formattedClientes);
 
-        const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
+        const tecnicosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
         setTecnicos(tecnicosResponse.data);
 
-        const tipoServicioResponse = await axios.get('http://localhost:62164/api/tiposervicio');
+        const tipoServicioResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
         setTipoServicios(tipoServicioResponse.data);
 
       } catch (error) {
@@ -86,7 +86,7 @@ const handleSubmit = async (e) => {
   } = formData;
 
   try {
-    const response = await axios.post('http://localhost:62164/api/servicio', {
+    const response = await axios.post('https://apirpmtecnodeploy.azurewebsites.net/api/servicio', {
       numeroOrden,
       ciCliente,
       tipoEquipo,

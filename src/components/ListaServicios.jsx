@@ -42,21 +42,21 @@ export default function ListaServicios() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/servicio');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/servicio');
         setServicios(response.data);
         console.log(response.data);
 
-        const estadosResponse = await axios.get('http://localhost:62164/api/estadoservicio');
+        const estadosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/estadoservicio');
         setEstados(estadosResponse.data);
 
-        const tiposSResponse = await axios.get('http://localhost:62164/api/tiposervicio');
+        const tiposSResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
         setTiposServicios(tiposSResponse.data);
 
-        const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
+        const tecnicosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
         setTecnicos(tecnicosResponse.data);
         
 
-        const clientesResponse = await axios.get('http://localhost:62164/api/cliente');
+        const clientesResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/cliente');
         setClientes(clientesResponse.data);
 
       } catch (error) {
@@ -105,7 +105,7 @@ export default function ListaServicios() {
         FechaFinalizado: ' '
       };
       
-      await axios.put(`http://localhost:62164/api/servicio/ModificarEstado/${id}`, data);
+      await axios.put(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/ModificarEstado/${id}`, data);
       
       
       setServicios((prevServicios) => {
@@ -183,7 +183,7 @@ export default function ListaServicios() {
   const handleDelete = (NumeroOrden) => {
     if (window.confirm("¿Seguro que deseas eliminar este registro?")) {
       axios
-        .delete(`http://localhost:62164/api/servicio/${NumeroOrden}`)
+        .delete(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/${NumeroOrden}`)
         .then((response) => {
           console.log("Registro eliminado con éxito.");
           setServicios(servicios.filter(servicio => servicio.NumeroOrden !== NumeroOrden));

@@ -15,7 +15,7 @@ export default function FormularioEmpleado() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/empleado');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
         setEmpleados(response.data);
         
       } catch (error) {
@@ -41,7 +41,7 @@ export default function FormularioEmpleado() {
     const { IdEmpleado, NombreEmpleado} = formData;
 
     try {
-      const response = await axios.post('http://localhost:62164/api/empleado', {
+      const response = await axios.post('https://apirpmtecnodeploy.azurewebsites.net/api/empleado', {
         IdEmpleado,
         NombreEmpleado
       });
