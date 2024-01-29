@@ -92,12 +92,6 @@ useEffect(() => {
               <StyledTableCell >{garantia.NumeroOrden}</StyledTableCell >
               <StyledTableCell >{garantia.FechaInicio}</StyledTableCell >
               <StyledTableCell >{garantia.FechaFinal}</StyledTableCell >
-              
-              {/* <TableCell >
-                <Button onClick={() => mostrarDetalleServicio(servicio.NumeroOrden)}>
-                  Ver Detalles
-                </Button>
-              </TableCell > */}
             </StyledTableRow>
           ))}
         </TableBody>

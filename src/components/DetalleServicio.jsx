@@ -70,18 +70,20 @@ export default function DetalleServicio() {
   
   return(
     <>
-      <Typography variant='h4' sx={{mb:2}}>Detalles Orden</Typography>
+      
       {detalleServicio ? (
         <Container>
+          <Typography variant='h4' sx={{mb:2}}>Detalles Orden</Typography>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-          
+            <Grid item xs={12} sm={6}>          
           <TextField
             label="Número de Orden"
             name="NumeroOrden"
             value={formulario.NumeroOrden}
             onChange={handleInputChange}
             disabled={true}
+            sx={{ mb: 2, mr:3 }}
+            fullWidth
           />
           
           
@@ -91,6 +93,8 @@ export default function DetalleServicio() {
             value={formulario.CICliente}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2, mr:3 }}
+            fullWidth
           />
           
           <TextField
@@ -99,6 +103,8 @@ export default function DetalleServicio() {
             value={formulario.TipoEquipo}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2, mr:3 }}
+            fullWidth
           />
          
           <TextField
@@ -107,6 +113,8 @@ export default function DetalleServicio() {
             value={formulario.Modelo}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2 }}
+            fullWidth
           />
           
           <TextField
@@ -115,10 +123,12 @@ export default function DetalleServicio() {
             value={formulario.TrabajoARealizar}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2 }}
+            fullWidth
           />
           
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
           
           <TextField
             label="Tipo de Servicio"
@@ -126,6 +136,8 @@ export default function DetalleServicio() {
             value={formulario.TipoServicio}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2, mr:3 }} 
+            fullWidth           
           />
           
           <TextField
@@ -134,6 +146,8 @@ export default function DetalleServicio() {
             value={formulario.FechaRecibido}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2, mr:3 }}
+            fullWidth
           />
           
           <TextField
@@ -142,6 +156,8 @@ export default function DetalleServicio() {
             value={formulario.Tecnico}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2, mr:3 }}
+            fullWidth
           />
         
           <TextField
@@ -150,6 +166,8 @@ export default function DetalleServicio() {
             value={formulario.PrecioReparacion}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2}}
+            fullWidth
           />
          
           <TextField
@@ -158,6 +176,8 @@ export default function DetalleServicio() {
             value={formulario.Nota}
             onChange={handleInputChange}
             disabled={!editando}
+            sx={{ mb: 2}}
+            fullWidth
           />
          
           </Grid>

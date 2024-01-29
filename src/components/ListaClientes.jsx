@@ -94,11 +94,6 @@ useEffect(() => {
               <StyledTableCell >{cliente.Apellido}</StyledTableCell >
               <StyledTableCell >{cliente.Telefono}</StyledTableCell >
               <StyledTableCell >{cliente.Mail}</StyledTableCell >
-              {/* <TableCell >
-                <Button onClick={() => mostrarDetalleServicio(servicio.NumeroOrden)}>
-                  Ver Detalles
-                </Button>
-              </TableCell > */}
             </StyledTableRow>
           ))}
         </TableBody>

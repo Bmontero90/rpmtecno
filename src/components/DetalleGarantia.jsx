@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Alert, Button, Container, MenuItem, TextField, Typography } from '@mui/material';
+import { Button, Container, TextField, Typography } from '@mui/material';
 
 export default function FormularioGarantia() {
   const [garantias, setGarantias] = useState([]);

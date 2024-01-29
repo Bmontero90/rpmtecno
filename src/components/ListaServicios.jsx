@@ -468,13 +468,6 @@ export default function ListaServicios() {
           </Link>
         </DialogActions>
       </Dialog>
-
-
-      {/* <DetalleGarantia/>   */}
-
-
-
-
             </StyledTableRow >
           ))}
         </TableBody>
