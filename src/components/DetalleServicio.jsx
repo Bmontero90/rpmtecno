@@ -28,7 +28,7 @@ export default function DetalleServicio() {
   useEffect(() => {
     const fetchDetalleServicio = async () => {
       try {
-        const response = await axios.get(`http://localhost:62164/api/servicio/${NumeroOrden}`);
+        const response = await axios.get(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/${NumeroOrden}`);
         setDetalleServicio(response.data);
         // También actualiza el estado del formulario con los datos del cliente
         setFormulario(response.data);
@@ -58,7 +58,7 @@ export default function DetalleServicio() {
   const handleGuardarClick = async () => {
     try {
       // Realiza la solicitud para actualizar los datos del cliente en el servidor
-      await axios.put(`http://localhost:62164/api/servicio/ActualizarDetalles/${NumeroOrden}`, formulario);
+      await axios.put(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/ActualizarDetalles/${NumeroOrden}`, formulario);
       setEditando(false);
       window.location.href = '/servicios';
       console.log('Servicio actualizado correctamente');

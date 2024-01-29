@@ -14,7 +14,7 @@ const [garantiaBuscado, setgarantiaBuscado] = useState('');
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/garantia');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/garantia');
         setGarantias(response.data);
       } catch (error) {
         console.error('Error al obtener la lista de grantias', error);

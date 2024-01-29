@@ -20,6 +20,23 @@ export default function VistaClientes() {
     const handleClose = () => setOpen(false);
 
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/servicio');
+        setServicios(response.data);
+
+        const estadosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/estadoservicio');
+        setEstados(estadosResponse.data);
+
+        const tiposSResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
+        setTiposServicios(tiposSResponse.data);
+
+        const tecnicosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
+        setTecnicos(tecnicosResponse.data);
+>>>>>>> 607cf92a6b37bfeb01092b04f22746c8fefd6c8d
 
 
     useEffect(() => {

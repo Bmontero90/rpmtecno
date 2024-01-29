@@ -17,7 +17,7 @@ export default function FormularioGarantia() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/garantia');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/garantia');
         setGarantias(response.data);
         console.log(garantias)
         
@@ -46,7 +46,7 @@ export default function FormularioGarantia() {
 
     try {
 
-      const response = await axios.post('http://localhost:62164/api/garantia', {
+      const response = await axios.post('https://apirpmtecnodeploy.azurewebsites.net/api/garantia', {
         NumeroOrden,
         FechaInicio,
         FechaFinal,

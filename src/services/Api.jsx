@@ -1,4 +1,4 @@
-const URL = "http://localhost:62164/api";
+const URL = "https://apirpmtecnodeploy.azurewebsites.net/api";
 
 
 const postServicios = async(NumeroOrden,CICliente, Modelo,TipoEquipo,TipoServicio,TrabajoARealizar,Tecnico,PrecioReparacion,FechaRecibido,FechaFinalizado,Nota,IdEstado) => {

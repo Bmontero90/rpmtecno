@@ -15,7 +15,7 @@ export default function FormularioTipoServicio() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/tiposervicio');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
         setTipoServicios(response.data);
         
       } catch (error) {
@@ -42,7 +42,7 @@ export default function FormularioTipoServicio() {
     const { IdTipoServicio, NombreServicio} = formData;
 
     try {
-      const response = await axios.post('http://localhost:62164/api/tiposervicio', {
+      const response = await axios.post('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio', {
         IdTipoServicio,
         NombreServicio
       });

@@ -14,7 +14,7 @@ const [clienteBuscado, setclienteBuscado] = useState('');
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:62164/api/cliente');
+        const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/cliente');
         setClientes(response.data);
       } catch (error) {
         console.error('Error al obtener la lista de clientes', error);

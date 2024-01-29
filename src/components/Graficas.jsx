@@ -10,11 +10,11 @@ export default function Graficas() {
     const fetchData = async () => {
       try {
         // Obtener datos de servicios
-        const responseServicios = await axios.get('http://localhost:62164/api/servicio');
+        const responseServicios = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/servicio');
         const servicios = responseServicios.data;
 
         // Obtener datos de técnicos
-        const responseTecnicos = await axios.get('http://localhost:62164/api/empleado');
+        const responseTecnicos = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
         const tecnicos = responseTecnicos.data;
 
         // Agrupar y contar la cantidad de reparaciones por técnico
