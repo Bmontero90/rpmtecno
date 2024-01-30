@@ -7,8 +7,9 @@ import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import { useAuth } from './AuthContext';
+import { useAuth} from './AuthContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -18,22 +19,24 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { isAuthenticated, login, logout } = useAuth();
+  const navigate = useNavigate();
   
 
   const handleButtonClick = () => {
     if (isAuthenticated) {
       logout();
+      navigate('/');
       
     } 
     
   };
   console.log("authenticated:", isAuthenticated);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   return (
     <>
@@ -42,7 +45,7 @@ export default function Navbar() {
       <Container>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-          <Link to="/vistaClientes">
+          <Link to="/">
         <img className="logo" src="./logo.png" alt="Logo" />
       </Link>
           </Box>

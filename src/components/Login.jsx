@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Box, Paper,Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
-<<<<<<< HEAD
-=======
-//import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
->>>>>>> 607cf92a6b37bfeb01092b04f22746c8fefd6c8d
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
