@@ -25,16 +25,16 @@ export default function VistaClientes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:62164/api/servicio');
+                const response = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/servicio');
                 setServicios(response.data);
 
-                const estadosResponse = await axios.get('http://localhost:62164/api/estadoservicio');
+                const estadosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/estadoservicio');
                 setEstados(estadosResponse.data);
 
-                const tiposSResponse = await axios.get('http://localhost:62164/api/tiposervicio');
+                const tiposSResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/tiposervicio');
                 setTiposServicios(tiposSResponse.data);
 
-                const tecnicosResponse = await axios.get('http://localhost:62164/api/empleado');
+                const tecnicosResponse = await axios.get('https://apirpmtecnodeploy.azurewebsites.net/api/empleado');
                 setTecnicos(tecnicosResponse.data);
 
             } catch (error) {

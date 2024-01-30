@@ -42,8 +42,8 @@ export default function App(){
         <Route path='/graficas' element={<ProtectedRoute element={<Graficas />} />}/>
         <Route path='/formularioTipoServicio' element={<ProtectedRoute element={<FormularioTipoServicio />} />}/>
         <Route path='/login' element={<Login/> } />
-        {/* <Route path='/vistaClientes' element={<VistaClientes/> } /> */}
-        <Route path="/"  element={<VistaClientes/> } />   
+        <Route path="/"  element={<VistaClientes/> } />
+        <Route path="/vistaClientes"  element={<VistaClientes/> } /> 
       </Routes>      
     </div>
     </AuthProvider>
