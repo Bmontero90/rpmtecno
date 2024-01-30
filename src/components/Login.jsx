@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Box, Paper,Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
-//import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
@@ -94,7 +93,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
     <Grid container justifyContent="center" alignItems="center" height="80vh" >
-    <Box component={Paper} elevation={11}  sx={{ width: 250, maxWidth: '100%', height: 300,textAlign: 'center', p:2}}
+    <Box component={Paper} elevation={11}  sx={{ width: 250, maxWidth: '100%', height: 350,textAlign: 'center', p:2}}
             autoComplete="off"
         >
     
@@ -109,6 +108,7 @@ const LoginForm = () => {
             name="CI"
             value={CI}
             onChange={handleCIChange}
+            error={errorLogin}
             required
             label="Cédula"
             

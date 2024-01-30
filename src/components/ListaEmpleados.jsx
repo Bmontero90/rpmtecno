@@ -75,16 +75,6 @@ const ListaEmpleados = () => {
     }));
 
   return (
-    // <div>
-    //   <h1>Lista de Empleados</h1>
-    //   <ul>
-    //     {empleados.map(empleado => (
-    //       <li key={empleado.IdEmpleado}>
-    //         {empleado.NombreEmpleado} - Tipo de Servicio: {empleado.IdTipoServicio}
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </div>
     <TableContainer component={Paper}>
       <Container>
     <Typography variant='h4' sx={{ mb: 2 }}>Listado de Empleados</Typography>

@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setIsAuthenticated(false);
-    Navigate('/vistaClientes');
+    Navigate('/');
   };
 
   useEffect(() => {

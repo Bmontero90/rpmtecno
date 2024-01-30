@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import ListaServicios from './components/ListaServicios';
 import ListaClientes from './components/ListaClientes';
 import FormularioReparacion from './components/FormularioReparacion';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate} from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthContext';
 import FormularioCliente from './components/FormularioCliente';
 import DetalleServicio from './components/DetalleServicio';
@@ -42,7 +42,7 @@ export default function App(){
         <Route path='/graficas' element={<ProtectedRoute element={<Graficas />} />}/>
         <Route path='/formularioTipoServicio' element={<ProtectedRoute element={<FormularioTipoServicio />} />}/>
         <Route path='/login' element={<Login/> } />
-        <Route path='/vistaClientes' element={<VistaClientes/> } />
+        {/* <Route path='/vistaClientes' element={<VistaClientes/> } /> */}
         <Route path="/"  element={<VistaClientes/> } />   
       </Routes>      
     </div>
@@ -53,8 +53,8 @@ export default function App(){
 
 function ProtectedRoute({ element }) {
   const { isAuthenticated } = useAuth();
-
+  const navigate = useNavigate();
   // Renderiza el componente solo si está autenticado, de lo contrario, redirige a /login
-  return isAuthenticated ? element : <Navigate to="/vistaClientes" />;
+  return isAuthenticated ? element : (navigate('/'), null);
 }
 
