@@ -248,6 +248,7 @@ export default function ListaServicios() {
     printWindow.document.write('<p>Equipo: ' + servicio.TipoEquipo + '</p>');
     printWindow.document.write('<p>Observaciones: ' + servicio.TrabajoARealizar + '</p>');
     printWindow.document.write('<p>Presupuesto: ' + servicio.PrecioReparacion + '</p>');
+    printWindow.document.write('<p>Prueba para el brahian: ' + servicio.PrecioReparacion + '</p>')
     printWindow.document.write('</body></html>');
     printWindow.document.close();
     printWindow.print();
