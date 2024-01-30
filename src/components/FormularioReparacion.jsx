@@ -231,7 +231,7 @@ const handleSubmit = async (e) => {
         </div>
         <div className="form-group">
           <TextField
-            label='Precio'
+            label='Presupuesto'
             type="number"
             name="precioReparacion"
             value={formData.precioReparacion}
@@ -248,6 +248,7 @@ const handleSubmit = async (e) => {
             value={formData.nota}
             onChange={handleInputChange}
             fullWidth
+            helperText="Registrar PIN o patrón de desbloqueo"
           />
         </div>        
         <Button variant="contained" type="submit" fullWidth >Registro</Button>
