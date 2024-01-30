@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PrintIcon from '@mui/icons-material/Print';
 import { Link } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -236,6 +237,22 @@ export default function ListaServicios() {
     p: 4,
   };
 
+  const handlePrint = (servicio) => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Detalles de la Orden</title></head><body>');
+    // Agrega aquí el contenido que deseas imprimir
+    printWindow.document.write('<h1>Detalles de la Orden</h1>');
+    printWindow.document.write('<p>Número de Orden: ' + servicio.NumeroOrden + '</p>');
+    printWindow.document.write('<p>Cliente: ' + servicio.CICliente + '</p>');
+    printWindow.document.write('<p>Fecha de Entrega: ' + servicio.FechaRecibido + '</p>');
+    printWindow.document.write('<p>Equipo: ' + servicio.TipoEquipo + '</p>');
+    printWindow.document.write('<p>Observaciones: ' + servicio.TrabajoARealizar + '</p>');
+    printWindow.document.write('<p>Presupuesto: ' + servicio.PrecioReparacion + '</p>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  };
+
 
   return (
     <TableContainer component={Paper}>
@@ -390,7 +407,10 @@ export default function ListaServicios() {
                   <IconButton>                 
                     <EditIcon onClick={() => editarServicio(servicio)} sx={{ paddingRight: '2px' }} />
                   </IconButton>
-                </Link>                  
+                </Link>
+                <IconButton onClick={() => handlePrint(servicio)}>
+                    <PrintIcon />
+                  </IconButton>                 
                   <IconButton onClick={() => handleDelete(servicio.NumeroOrden)}>
                     <DeleteIcon />
                   </IconButton>

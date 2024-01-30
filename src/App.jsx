@@ -18,6 +18,7 @@ import ListaTipoServicios from './components/ListaTipoServicios';
 import FormularioTipoServicio from './components/FormularioTipoServicio';
 import Graficas from './components/Graficas';
 import VistaClientes from './components/VistaClientes';
+import ImprimirOrden from './components/ImprimirOrden';
 
 
 
@@ -44,6 +45,7 @@ export default function App(){
         <Route path='/login' element={<Login/> } />
         <Route path="/"  element={<VistaClientes/> } />
         <Route path="/vistaClientes"  element={<VistaClientes/> } /> 
+        <Route path="/imprimirOrden"  element={<ImprimirOrden/> } /> 
       </Routes>      
     </div>
     </AuthProvider>

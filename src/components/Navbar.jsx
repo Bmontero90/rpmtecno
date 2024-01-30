@@ -129,7 +129,7 @@ export default function Navbar() {
               },
             }}>
                   <SupervisorAccountOutlinedIcon />
-                    Empleados
+                    Técnicos
                   </Button>
                   <Button href='/tipoServicios' sx={{
               color: "white",
