@@ -58,7 +58,7 @@ export default function FormularioEmpleado() {
 
   return (
     <Container sx={{mt:5}}>
-      <Typography variant='h4' sx={{mb:2}}>Formulario de Empleado</Typography>
+      <Typography variant='h4' sx={{mb:2}}>Formulario de Técnico</Typography>
       <form onSubmit={handleSubmit}>      
         <div className="form-group">
           <TextField

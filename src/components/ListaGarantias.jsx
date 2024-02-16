@@ -31,17 +31,33 @@ useEffect(() => {
   }
 
   //Metodo de filtrado
-    let resultado = []
-    if(!garantiaBuscado){
-        resultado = garantias
-    } else{
-        resultado = garantias.filter((dato) =>
-        dato.IdGrantia.toString().includes(garantiaBuscado) ||
-        dato.NumeroOrden.toLowerCase().includes(garantiaBuscado.toLocaleLowerCase()) ||
-        dato.FechaInicio.toLowerCase().includes(garantiaBuscado.toLowerCase())  ||
+  let resultado = [];
+  if (!garantiaBuscado) {
+    resultado = garantias;
+  } else {
+    resultado = garantias.filter((dato) =>
+      (
+        dato.IdGarantia &&
+        typeof dato.IdGarantia === 'string' &&
+        dato.IdGarantia.toLowerCase().includes(garantiaBuscado.toLowerCase())
+      ) ||
+      (
+        dato.NumeroOrden &&
+        typeof dato.NumeroOrden === 'string' &&
+        dato.NumeroOrden.toLowerCase().includes(garantiaBuscado.toLowerCase())
+      ) ||
+      (
+        dato.FechaInicio &&
+        typeof dato.FechaInicio === 'string' &&
+        dato.FechaInicio.toLowerCase().includes(garantiaBuscado.toLowerCase())
+      ) ||
+      (
+        dato.FechaFinal &&
+        typeof dato.FechaFinal === 'string' &&
         dato.FechaFinal.toLowerCase().includes(garantiaBuscado.toLowerCase())
-        )
-    }
+      )
+    );
+  }
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {

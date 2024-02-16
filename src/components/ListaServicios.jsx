@@ -31,11 +31,13 @@ export default function ListaServicios() {
   const [tecnicoFiltrado, setTecnicoFiltrado] = useState('');
   const [numeroCliente, setNumeroCliente] = useState('');
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null)
+  const [bloquearEstado, setBloquearEstado] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [openDialogo, setOpenDialogo] = React.useState(false);
   const handleOpenDialogo = () => setOpenDialogo(true);
+
  
   
 
@@ -99,15 +101,13 @@ export default function ListaServicios() {
 
   const handleEditEstado = async (id,CICliente,nuevoEstado) => {
     try {
-      const data = 
-      {
-        NumeroOrden:id,
-        IdEstado:nuevoEstado,
+      const data = {
+        NumeroOrden: id,
+        IdEstado: nuevoEstado,
         FechaFinalizado: ' '
       };
       
       await axios.put(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/ModificarEstado/${id}`, data);
-      
       
       setServicios((prevServicios) => {
         return prevServicios.map((servicio) =>
@@ -116,23 +116,20 @@ export default function ListaServicios() {
             : servicio
         );
       });
-
-      
-
+  
       if (nuevoEstado === 4) {
         const numCli = clientes.find((ci) => ci.CI === CICliente)?.Telefono;
         handleOpenDialogo(numCli);
-        setNumeroCliente(numCli)
-        setBloquearEstado(true);
-               
-      }
-      
-      
-   
+        setNumeroCliente(numCli);
+        setBloquearEstado(true); // Aquí establece el bloqueo del estado
+      } 
+      console.log(bloquearEstado);
+      console.log(nuevoEstado);
     } catch (error) {
       console.error('Error al guardar el estado:', error);
     }
   };
+  
   
   const handleCloseDialogo = () => {
     
@@ -235,22 +232,53 @@ export default function ListaServicios() {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
+};
 
   const handlePrint = (servicio) => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  
     const printWindow = window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Detalles de la Orden</title></head><body>');
+    printWindow.document.write('<html><head><title>Nº Orden ' + servicio.NumeroOrden + '</title></head><body>');
+  
     // Agrega aquí el contenido que deseas imprimir
-    printWindow.document.write('<h1>Detalles de la Orden</h1>');
-    printWindow.document.write('<p>Número de Orden: ' + servicio.NumeroOrden + '</p>');
-    printWindow.document.write('<p>Cliente: ' + servicio.CICliente + '</p>');
-    printWindow.document.write('<p>Fecha de Entrega: ' + servicio.FechaRecibido + '</p>');
-    printWindow.document.write('<p>Equipo: ' + servicio.TipoEquipo + '</p>');
-    printWindow.document.write('<p>Observaciones: ' + servicio.TrabajoARealizar + '</p>');
-    printWindow.document.write('<p>Presupuesto: ' + servicio.PrecioReparacion + '</p>');
-    printWindow.document.write('<p>Prueba para el brahian: ' + servicio.PrecioReparacion + '</p>')
+  
+    // Inicio de la tabla
+    printWindow.document.write('<table style="width:100%;"><tr>');
+  
+    // Columna izquierda
+    printWindow.document.write('<td style="width:50%;">');
+    printWindow.document.write('<h3 style="color:grey; margin-top:35px;">ORDEN DE REPARACIÓN</h3>');
+    printWindow.document.write('<div style="color:grey; font-size: 13px;">NÚMERO DE ORDEN</div>');
+    printWindow.document.write('<div># ' + servicio.NumeroOrden + '</div>'); 
+    printWindow.document.write('</td>');
+  
+    // Columna derecha
+    printWindow.document.write('<td style="width:50%;">');
+    printWindow.document.write('<div><img style="margin-right:60px" src="https://rpmtecno.myshopify.com/cdn/shop/files/logo-removebg-preview_d1e6665f-a2fd-4aab-b2d1-186ce040273e.png?v=1697052363&width=100" alt="Logo" /><div style="margin-top:5px;display:inline;position: absolute;"> ' + formattedDate + '</div></div>');
+    printWindow.document.write('</td>');
+  
+    // Cierre de la tabla
+    printWindow.document.write('</tr></table>');
+    printWindow.document.write('<hr style="border: 2px solid #ccc;">');
+
+  
+    // Resto del contenido
+    printWindow.document.write('<div style="color:grey;font-size: 13px; margin-top:15px;">CLIENTE:  <span style="color:black">' + servicio.CICliente + '</span> </div> ');
+    printWindow.document.write('<div style="color:grey;font-size: 13px; margin-top:15px;">FECHA DE ENTREGA: <span style="color:black">' + servicio.FechaRecibido + '</span> </div> ');
+    printWindow.document.write('<div style="color:grey;font-size: 13px; margin-top:15px;">EQUIPO A REPARAR: <span style="color:black">' + servicio.TipoEquipo + '</span> </div> ');
+    printWindow.document.write('<div style="color:grey;font-size: 13px; margin-top:15px;">DESCRIPCIÓN FALLA: <span style="color:black">' + servicio.TrabajoARealizar + '</span> </div> ');
+    printWindow.document.write('<div style="color:grey;font-size: 13px; margin-top:15px;">PRESUPUESTO: <span style="color:black">$ ' + servicio.PrecioReparacion + '</span> </div> ');
+    printWindow.document.write('<p>Consultá el estado de tu reparación a través de nuestra web: rpmtecno.uy</p>');
+    printWindow.document.write('<h2 style="margin-top:200px">INFORMACIÓN ADICIONAL (CELULARES)</h2>');
+    printWindow.document.write('<div><img style="margin-right:60px" src="https://i.blogs.es/3c7257/patrondesbloqueo-1/450_1000.webp" alt="Logo" /></div>');
+    printWindow.document.write('<p>PIN:</p>');
+    printWindow.document.write('<p>CONTRASEÑA:</p>');
+
+
+    // Cierre del documento
     printWindow.document.write('</body></html>');
-    printWindow.document.close();
+    printWindow.document.close(); 
     printWindow.print();
   };
 
@@ -391,6 +419,7 @@ export default function ListaServicios() {
                 <Select size="small" variant="standard"
                   value={servicio.IdEstado}
                   onChange={(e) => handleEditEstado(servicio.NumeroOrden,servicio.CICliente, e.target.value)}
+                  disabled={servicio.IdEstado == 4}
                 >
                   {estados.map((estado) => (
                     <MenuItem key={estado.IdEstado} value={estado.IdEstado}>
@@ -422,14 +451,15 @@ export default function ListaServicios() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                BackdropProps={{ invisible: true }}
               >
                 <Box sx={styleModal}>
                   <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
-                    Detalles de la Órden
+                    Detalles de la Orden
                   </Typography>
                   {servicioSeleccionado && (
                     <div>
-                      <TextField label='Numero de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" InputProps={{
+                      <TextField label='Número de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mr: 20, mb: 2 }} />
                       <TextField label='Cliente' defaultValue={servicioSeleccionado.CICliente} size="small" variant="standard" InputProps={{
@@ -456,7 +486,7 @@ export default function ListaServicios() {
                       <TextField label='Tecnico' defaultValue={servicioSeleccionado.Tecnico && tecnicos.find((empleado) => empleado.IdEmpleado === servicioSeleccionado.Tecnico)?.NombreEmpleado} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Precio: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
+                      <TextField label='Presupuesto: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mb: 2 }} />
                       <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" InputProps={{

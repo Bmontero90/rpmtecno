@@ -77,7 +77,7 @@ const ListaEmpleados = () => {
   return (
     <TableContainer component={Paper}>
       <Container>
-    <Typography variant='h4' sx={{ mb: 2 }}>Listado de Empleados</Typography>
+    <Typography variant='h4' sx={{ mb: 2 }}>Listado de Técnicos</Typography>
     <Button href='/formularioEmpleado' variant="contained" color="success" startIcon={<AddCircleOutlineIcon />} size="small" sx={{ mb: 2 }}>Añadir</Button>
     <OutlinedInput value={tecnicoBuscado} onChange={buscador} placeholder="Buscar..."  sx={{mb:4}} fullWidth size="small"
     startAdornment={
