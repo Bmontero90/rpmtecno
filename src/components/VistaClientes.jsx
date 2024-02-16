@@ -13,6 +13,7 @@ export default function VistaClientes() {
     const [ordenBuscado, setOrdenBuscado] = useState('');
     const [servicioSeleccionado, setServicioSeleccionado] = useState(null);
     const [open, setOpen] = React.useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,11 +46,11 @@ export default function VistaClientes() {
         if (servicio) {
             setServicioSeleccionado(servicio);
             setOpen(true);
+            setError(false);
         } else {
-            // Limpiar el servicio seleccionado y mostrar un mensaje de error si no se encuentra
             setServicioSeleccionado(null);
             setOpen(false);
-            alert('No se encontró ninguna reparación con el número de orden especificado.');
+            setError(true);
         }
     };
 
@@ -95,13 +96,17 @@ export default function VistaClientes() {
                 <Grid container spacing={5} sx={{mt:4}}>
                     <Grid item xs={12} sm={6}>
                         <Typography>Número de orden</Typography>          
-                <OutlinedInput value={ordenBuscado} onChange={(e) => setOrdenBuscado(e.target.value)} placeholder="Buscar..." sx={{ mb: 2 }} fullWidth size="small"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                    } />
-                <Button onClick={handleBuscarClick} variant="contained" sx={{ mb: 2 }}>
+                <TextField value={ordenBuscado} onChange={(e) => setOrdenBuscado(e.target.value)} placeholder="Buscar..." sx={{ mb: 2 }} fullWidth size="small"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    helperText={error ? 'No se encontró ninguna reparación con el número de orden especificado.' : ''} 
+                    error={error} />
+                <Button onClick={handleBuscarClick} variant="contained" sx={{ mt:1 }}>
                     Buscar
                 </Button>
                 </Grid>
