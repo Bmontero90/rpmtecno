@@ -13,6 +13,7 @@ export default function VistaClientes() {
     const [ordenBuscado, setOrdenBuscado] = useState('');
     const [servicioSeleccionado, setServicioSeleccionado] = useState(null);
     const [open, setOpen] = React.useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +38,7 @@ export default function VistaClientes() {
     }, []);
 
     const buscarServicio = (input) => {
-        return servicios.find(servicio => servicio.NumeroOrden.toString() === input || servicio.CICliente.toString() === input);
+        return servicios.find(servicio => servicio.NumeroOrden.toString() === input);
     };
 
     const handleBuscarClick = () => {
@@ -45,11 +46,11 @@ export default function VistaClientes() {
         if (servicio) {
             setServicioSeleccionado(servicio);
             setOpen(true);
+            setError(false);
         } else {
-            // Limpiar el servicio seleccionado y mostrar un mensaje de error si no se encuentra
             setServicioSeleccionado(null);
             setOpen(false);
-            alert('No se encontró ningún servicio con el número de orden o cédula especificados.');
+            setError(true);
         }
     };
 
@@ -90,18 +91,22 @@ export default function VistaClientes() {
             <Container>
                 <Box>
                     <Typography variant='h4' sx={{ mb: 1, mt: 15, textAlign: 'center' }}>Consultá tu reparación</Typography>
-                    <Typography variant='h4' sx={{ mb: 2, textAlign: 'center', fontSize: 15 }}>Consulte aquí el estado de su reparación, ingresando su número de orden o su número de cédula.</Typography>
+                    <Typography variant='h4' sx={{ mb: 2, textAlign: 'center', fontSize: 15 }}>Consulte aquí el estado de su reparación, ingresando su número de orden.</Typography>
                 </Box>
                 <Grid container spacing={5} sx={{mt:4}}>
                     <Grid item xs={12} sm={6}>
-                        <Typography>Número de orden / número de cédula</Typography>          
-                <OutlinedInput value={ordenBuscado} onChange={(e) => setOrdenBuscado(e.target.value)} placeholder="Buscar..." sx={{ mb: 2 }} fullWidth size="small"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                    } />
-                <Button onClick={handleBuscarClick} variant="contained" sx={{ mb: 2 }}>
+                        <Typography>Número de orden</Typography>          
+                <TextField value={ordenBuscado} onChange={(e) => setOrdenBuscado(e.target.value)} placeholder="Buscar..." sx={{ mb: 2 }} fullWidth size="small"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    helperText={error ? 'No se encontró ninguna reparación con el número de orden especificado' : ''} 
+                    error={error} />
+                <Button onClick={handleBuscarClick} variant="contained" sx={{ mt:1 }}>
                     Buscar
                 </Button>
                 </Grid>
@@ -148,15 +153,12 @@ export default function VistaClientes() {
                             <TextField label='Fecha Finalizado' defaultValue={servicioSeleccionado.FechaFinalizado} size="small" variant="standard" InputProps={{
                                 readOnly: true,
                             }} sx={{ mb: 2 }} />
-                            <TextField label='Tecnico' defaultValue={servicioSeleccionado.Tecnico && tecnicos.find((empleado) => empleado.IdEmpleado === servicioSeleccionado.Tecnico)?.NombreEmpleado} size="small" variant="standard" InputProps={{
-                                readOnly: true,
-                            }} sx={{ mr: 20, mb: 2 }} />
                             <TextField label='Presupuesto: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
                                 readOnly: true,
-                            }} sx={{ mb: 2 }} />
+                            }} sx={{ mr: 20,mb: 2 }} />
                             <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" InputProps={{
                                 readOnly: true,
-                            }} sx={{ mr: 20, mb: 2 }} />
+                            }} sx={{ mb: 2 }} />
                         </div>
                     )}
                 </Box>
