@@ -49,7 +49,7 @@ export default function VistaClientes() {
             // Limpiar el servicio seleccionado y mostrar un mensaje de error si no se encuentra
             setServicioSeleccionado(null);
             setOpen(false);
-            alert('No se encontró ningún servicio con el número de orden especificado.');
+            alert('No se encontró ninguna reparación con el número de orden especificado.');
         }
     };
 
