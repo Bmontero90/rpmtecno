@@ -104,7 +104,7 @@ export default function VistaClientes() {
                             </InputAdornment>
                         ),
                     }}
-                    helperText={error ? 'No se encontró ninguna reparación con el número de orden especificado.' : ''} 
+                    helperText={error ? 'No se encontró ninguna reparación con el número de orden especificado' : ''} 
                     error={error} />
                 <Button onClick={handleBuscarClick} variant="contained" sx={{ mt:1 }}>
                     Buscar
