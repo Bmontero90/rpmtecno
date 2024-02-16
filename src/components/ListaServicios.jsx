@@ -31,6 +31,7 @@ export default function ListaServicios() {
   const [tecnicoFiltrado, setTecnicoFiltrado] = useState('');
   const [numeroCliente, setNumeroCliente] = useState('');
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null)
+  const [bloquearEstado, setBloquearEstado] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -100,15 +101,13 @@ export default function ListaServicios() {
 
   const handleEditEstado = async (id,CICliente,nuevoEstado) => {
     try {
-      const data = 
-      {
-        NumeroOrden:id,
-        IdEstado:nuevoEstado,
+      const data = {
+        NumeroOrden: id,
+        IdEstado: nuevoEstado,
         FechaFinalizado: ' '
       };
       
       await axios.put(`https://apirpmtecnodeploy.azurewebsites.net/api/servicio/ModificarEstado/${id}`, data);
-      
       
       setServicios((prevServicios) => {
         return prevServicios.map((servicio) =>
@@ -117,23 +116,20 @@ export default function ListaServicios() {
             : servicio
         );
       });
-
-      
-
+  
       if (nuevoEstado === 4) {
         const numCli = clientes.find((ci) => ci.CI === CICliente)?.Telefono;
         handleOpenDialogo(numCli);
-        setNumeroCliente(numCli)
-        setBloquearEstado(true);
-               
-      }
-      
-      
-   
+        setNumeroCliente(numCli);
+        setBloquearEstado(true); // Aquí establece el bloqueo del estado
+      } 
+      console.log(bloquearEstado);
+      console.log(nuevoEstado);
     } catch (error) {
       console.error('Error al guardar el estado:', error);
     }
   };
+  
   
   const handleCloseDialogo = () => {
     
@@ -236,7 +232,7 @@ export default function ListaServicios() {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
+};
 
   const handlePrint = (servicio) => {
     const currentDate = new Date();
@@ -423,6 +419,7 @@ export default function ListaServicios() {
                 <Select size="small" variant="standard"
                   value={servicio.IdEstado}
                   onChange={(e) => handleEditEstado(servicio.NumeroOrden,servicio.CICliente, e.target.value)}
+                  disabled={servicio.IdEstado == 4}
                 >
                   {estados.map((estado) => (
                     <MenuItem key={estado.IdEstado} value={estado.IdEstado}>
@@ -454,14 +451,15 @@ export default function ListaServicios() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                BackdropProps={{ invisible: true }}
               >
                 <Box sx={styleModal}>
                   <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
-                    Detalles de la Órden
+                    Detalles de la Orden
                   </Typography>
                   {servicioSeleccionado && (
                     <div>
-                      <TextField label='Numero de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" InputProps={{
+                      <TextField label='Número de Orden' defaultValue={servicioSeleccionado.NumeroOrden} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mr: 20, mb: 2 }} />
                       <TextField label='Cliente' defaultValue={servicioSeleccionado.CICliente} size="small" variant="standard" InputProps={{
@@ -488,7 +486,7 @@ export default function ListaServicios() {
                       <TextField label='Tecnico' defaultValue={servicioSeleccionado.Tecnico && tecnicos.find((empleado) => empleado.IdEmpleado === servicioSeleccionado.Tecnico)?.NombreEmpleado} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mr: 20, mb: 2 }} />
-                      <TextField label='Precio: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
+                      <TextField label='Presupuesto: $' defaultValue={servicioSeleccionado.PrecioReparacion} size="small" variant="standard" InputProps={{
             readOnly: true,
           }} sx={{ mb: 2 }} />
                       <TextField label='Estado' defaultValue={servicioSeleccionado.IdEstado && estados.find((estado) => estado.IdEstado === servicioSeleccionado.IdEstado)?.Estado} size="small" variant="standard" InputProps={{
